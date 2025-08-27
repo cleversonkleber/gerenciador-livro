@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">GerenciadorLeitura</string>
+    <string name="titulo">Titulo</string>
+    <string name="autor">Autor</string>
+    <string name="numeroPaginas">Número total de paginas</string>
+    <string name="dataInicio">Data Inicio da Leitura</string>
+    <string name="dataTermino">Data termino da Leitura</string>
+    <string name="status">Status</string>
+    <string name="lendo">Lendo</string>
+    <string name="lido">Lido</string>
+    <string name="queroLer">Quero Ler</string>
+    <string name="anotacao">Anotação</string>
+    <string name="salvar">Salvar</string>
+    <string name="limpar">Limpar</string>
+</resources>
