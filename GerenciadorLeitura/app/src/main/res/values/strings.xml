@@ -12,4 +12,6 @@
     <string name="anotacao">Anotação</string>
     <string name="salvar">Salvar</string>
     <string name="limpar">Limpar</string>
+    <string name="tipo">Tipo</string>
+    <string name="favorito">Favorito</string>
 </resources>
