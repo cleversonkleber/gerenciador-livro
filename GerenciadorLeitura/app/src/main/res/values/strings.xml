@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">GerenciadorLeitura</string>
     <string name="titulo">Titulo</string>
-    <string name="autor">Autor</string>
+    <string name="autor">Autor do Livro</string>
     <string name="numeroPaginas">Número total de paginas</string>
     <string name="dataInicio">Data Inicio da Leitura</string>
     <string name="dataTermino">Data termino da Leitura</string>
@@ -14,4 +14,15 @@
     <string name="limpar">Limpar</string>
     <string name="tipo">Tipo</string>
     <string name="favorito">Favorito</string>
+    <string name="cadastro_de_livros">Cadastro de Livros</string>
+    <string name="t_tulo_do_livro">Título do Livro</string>
+    <string name="aventura">Aventura</string>
+    <string name="acao">Ação</string>
+    <string name="romance">Romance</string>
+    <string name="drama">Drama</string>
+    <string name="terror">Terror</string>
+    <string name="ficcaoo_cientifica">Ficção Cientifica</string>
+    <string name="cristao">Cristão</string>
+    <string name="poesia">Poesia</string>
+    <string name="politica">Politica</string>
 </resources>

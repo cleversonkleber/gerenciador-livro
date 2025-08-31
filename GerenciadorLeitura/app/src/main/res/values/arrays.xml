@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="tipo">
+        <item>@string/aventura</item>
+        <item>@string/acao</item>
+        <item>@string/romance</item>
+        <item>@string/drama</item>
+        <item>@string/terror</item>
+        <item>@string/ficcaoo_cientifica</item>
+        <item>@string/cristao</item>
+        <item>@string/poesia</item>
+        <item>@string/politica</item>
+    </string-array>
+
+</resources>
