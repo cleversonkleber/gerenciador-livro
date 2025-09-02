@@ -46,7 +46,6 @@ public class LivroActivity extends AppCompatActivity {
         buttonLimpar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Ação correta: chama a função que limpa os campos da tela
                 limparCampos(v);
             }
         });
@@ -63,7 +62,7 @@ public class LivroActivity extends AppCompatActivity {
 
 
     public void limparCampos(View view){
-        editTextTitulo.setText(""); // Corrigido para string vazia
+        editTextTitulo.setText("");
         editTextAutor.setText("");
         editTextNPaginas.setText("");
         editTextDateInicio.setText("");
