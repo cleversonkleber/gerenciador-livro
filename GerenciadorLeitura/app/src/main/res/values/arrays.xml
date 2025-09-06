@@ -61,29 +61,29 @@
     </intger-array>
 
     <string-array name="livros_data_inicio">
-        <item>684</item>
-        <item>926</item>
-        <item>524</item>
-        <item>884</item>
-        <item>710</item>
-        <item>364</item>
-        <item>422</item>
-        <item>403</item>
-        <item>411</item>
-        <item>395</item>
+        <item>20/02/2024</item>
+        <item>20/05/2024</item>
+        <item>15/05/2025</item>
+        <item>-</item>
+        <item>-</item>
+        <item>-</item>
+        <item>-</item>
+        <item>-</item>
+        <item>-</item>
+        <item>-</item>
     </string-array>
 
     <string-array name="livros_data_fim">
-        <item>684</item>
-        <item>926</item>
-        <item>524</item>
-        <item>884</item>
-        <item>710</item>
-        <item>364</item>
-        <item>422</item>
-        <item>403</item>
-        <item>411</item>
-        <item>395</item>
+        <item>10/05/2024</item>
+        <item>20/08/2024</item>
+        <item>-</item>
+        <item>-</item>
+        <item>-</item>
+        <item>-</item>
+        <item>-</item>
+        <item>-</item>
+        <item>-</item>
+        <item>-</item>
     </string-array>
 
     <integer-array name="livros_status">
