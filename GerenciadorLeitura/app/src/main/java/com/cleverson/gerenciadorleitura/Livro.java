@@ -10,17 +10,17 @@ public class Livro {
     private int numeroPaginas;
     private LocalDate dataInicio;
     private LocalDate dataFimLeitura;
-    private String tipo;
+    private Tipo tipo;
     private boolean favorio;
-    private String status;
+    private Status status;
     private  String anotacao;
 
     public Livro() {
     }
 
     public Livro(Long id, String titulo, String autor, int numeroPaginas,
-                 LocalDate dataInicio, LocalDate dataFimLeitura, String tipo, boolean favorio,
-                 String status, String anotacao) {
+                 LocalDate dataInicio, LocalDate dataFimLeitura, Tipo tipo, boolean favorio,
+                 Status status, String anotacao) {
         this.id = id;
         this.titulo = titulo;
         this.autor = autor;
@@ -81,11 +81,11 @@ public class Livro {
         this.dataFimLeitura = dataFimLeitura;
     }
 
-    public String getTipo() {
+    public Tipo getTipo() {
         return tipo;
     }
 
-    public void setTipo(String tipo) {
+    public void setTipo(Tipo tipo) {
         this.tipo = tipo;
     }
 
@@ -97,11 +97,11 @@ public class Livro {
         this.favorio = favorio;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 

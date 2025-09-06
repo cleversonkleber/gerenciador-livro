@@ -11,5 +11,137 @@
         <item>@string/poesia</item>
         <item>@string/politica</item>
     </string-array>
+    <string-array name="status">
+        <item>Lendo</item>
+        <item>Lido</item>
+        <item>Vou ler</item>
+    </string-array>
+
+    <string-array name="livros_titulo">
+        <item>Java para Iniciantes</item>
+        <item>Algoritmos</item>
+        <item>OCA java SE8</item>
+        <item>Estrutura de dados com C</item>
+        <item>Tutoreal Java</item>
+        <item>Padrões de Projeto</item>
+        <item>Codigo limpo</item>
+        <item>Arquitetura Limpa</item>
+        <item>Java Efetivo</item>
+        <item>Engenharia de Software Moderna</item>
+    </string-array>
+
+    <string-array name="livros_autor">
+        <item>Herbert Schildt</item>
+        <item>
+            Thomas H. Cormen,
+            Charles E. Leiserson,
+            Ronald L. Rivest,
+            Criford Stein
+        </item>
+        <item>Edward Finegan, Robert Liguori</item>
+        <item>Aaron M. Tanenbaum, Yedidyan Langsam, Moshe J. Augenstein</item>
+        <item>Raymond Gallardo</item>
+        <item>Erich Gamma</item>
+        <item>Robert C. Martin</item>
+        <item>Robert C. Martin</item>
+        <item>Joshua Bloch</item>
+        <item>Marco Tulio Valente</item>
+    </string-array>
+    <intger-array name="livros_paginas">
+        <item>684</item>
+        <item>926</item>
+        <item>524</item>
+        <item>884</item>
+        <item>710</item>
+        <item>364</item>
+        <item>422</item>
+        <item>403</item>
+        <item>411</item>
+        <item>395</item>
+    </intger-array>
+
+    <string-array name="livros_data_inicio">
+        <item>684</item>
+        <item>926</item>
+        <item>524</item>
+        <item>884</item>
+        <item>710</item>
+        <item>364</item>
+        <item>422</item>
+        <item>403</item>
+        <item>411</item>
+        <item>395</item>
+    </string-array>
+
+    <string-array name="livros_data_fim">
+        <item>684</item>
+        <item>926</item>
+        <item>524</item>
+        <item>884</item>
+        <item>710</item>
+        <item>364</item>
+        <item>422</item>
+        <item>403</item>
+        <item>411</item>
+        <item>395</item>
+    </string-array>
+
+    <integer-array name="livros_status">
+        <item>0</item>
+        <item>0</item>
+        <item>1</item>
+        <item>3</item>
+        <item>3</item>
+        <item>3</item>
+        <item>3</item>
+        <item>3</item>
+        <item>3</item>
+        <item>3</item>
+    </integer-array>
+
+    <string-array name="livros_tipo">
+        <item>9</item>
+        <item>9</item>
+        <item>9</item>
+        <item>9</item>
+        <item>9</item>
+        <item>9</item>
+        <item>9</item>
+        <item>9</item>
+        <item>9</item>
+        <item>9</item>
+    </string-array>
+
+    <integer-array name="livros_favorito">
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>1</item>
+    </integer-array>
+
+    <string-array name="livros_anotacao">
+        <item>684</item>
+        <item>926</item>
+        <item>524</item>
+        <item>884</item>
+        <item>710</item>
+        <item>364</item>
+        <item>422</item>
+        <item>403</item>
+        <item>411</item>
+        <item>395</item>
+    </string-array>
+
+
+
+
 
 </resources>
+
+
