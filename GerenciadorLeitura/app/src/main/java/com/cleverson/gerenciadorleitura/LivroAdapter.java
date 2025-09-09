@@ -15,6 +15,8 @@ public class LivroAdapter extends BaseAdapter {
     private Context context;
     private List<Livro> livroList;
 
+    private String[] tipos;
+
     private static class LivroHolder{
         public TextView textViewValorTitulo;
         private TextView textViewValorAutor;
@@ -29,6 +31,7 @@ public class LivroAdapter extends BaseAdapter {
     public LivroAdapter(List<Livro> livroList, Context context) {
         this.livroList = livroList;
         this.context = context;
+        tipos = context.getResources().getStringArray(R.array.tipo);
     }
 
     @Override
@@ -62,8 +65,25 @@ public class LivroAdapter extends BaseAdapter {
             livroHolder.textViewValorFavorito = convertView.findViewById(R.id.textViewValorFavorito);
             livroHolder.textViewValorAnotacao = convertView.findViewById(R.id.textViewValorAnotaco);
 
-            
+            convertView.setTag(livroHolder);
+        }else{
+            livroHolder =(LivroHolder) convertView.getTag();
         }
+
+        Livro livro = livroList.get(position);
+        livroHolder.textViewValorTitulo.setText(livro.getTitulo());
+        livroHolder.textViewValorAutor.setText(livro.getAutor());
+        livroHolder.textViewValorPaginas.setText(livro.getNumeroPaginas());
+        livroHolder.textViewValorDataInicio.setText(livro.getDataInicio());
+        livroHolder.textViewValorDataFim.setText(livro.getDataFimLeitura());
+        livroHolder.textViewValorStatus.setText(livro.getStatus());
+        livroHolder.textViewValorTipo.setText(livro.getTipo());
+        livroHolder.textViewValorAnotacao.setText(livro.getAnotacao());
+        livroHolder.textViewValorFavorito.setText(livro.getFavorito());
+
+
+
+
 
         return null;
     }
