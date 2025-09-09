@@ -26,6 +26,8 @@ public class LivrosActivity extends AppCompatActivity {
     private ListView listViewLivros;
     private List<Livro> livroList;
 
+    private LivroAdapter livroAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,13 +85,9 @@ public class LivrosActivity extends AppCompatActivity {
             livroList.add(livro);
         }
 
-        ArrayAdapter<Livro> adapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_list_item_1,
-                livroList
-        );
+        livroAdapter = new LivroAdapter(this,livroList);
 
-        listViewLivros.setAdapter(adapter);
+        listViewLivros.setAdapter(livroAdapter);
 
 
     }

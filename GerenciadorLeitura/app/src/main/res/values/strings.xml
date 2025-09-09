@@ -26,4 +26,5 @@
     <string name="poesia">Poesia</string>
     <string name="politica">Politica</string>
     <string name="tecnologia">tecnologia</string>
+    <string name="nao_favorito">Não Favorito</string>
 </resources>

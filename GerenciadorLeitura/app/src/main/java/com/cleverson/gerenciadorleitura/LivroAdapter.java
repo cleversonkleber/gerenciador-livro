@@ -8,7 +8,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class LivroAdapter extends BaseAdapter {
 
@@ -16,6 +18,7 @@ public class LivroAdapter extends BaseAdapter {
     private List<Livro> livroList;
 
     private String[] tipos;
+    private String[] status;
 
     private static class LivroHolder{
         public TextView textViewValorTitulo;
@@ -28,10 +31,13 @@ public class LivroAdapter extends BaseAdapter {
         private TextView textViewValorFavorito;
         private TextView textViewValorAnotacao;
     }
-    public LivroAdapter(List<Livro> livroList, Context context) {
+
+
+    public LivroAdapter(Context context,List<Livro> livroList) {
         this.livroList = livroList;
         this.context = context;
         tipos = context.getResources().getStringArray(R.array.tipo);
+        status= context.getResources().getStringArray(R.array.livros_status);
     }
 
     @Override
@@ -51,14 +57,16 @@ public class LivroAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LivroHolder livroHolder = null;
+        LivroHolder livroHolder;
         if (convertView ==null){
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.linha_lista_livros, parent, false);
+            livroHolder =  new LivroHolder();
+
             livroHolder.textViewValorTitulo = convertView.findViewById(R.id.textViewValorTitulo);
             livroHolder.textViewValorAutor = convertView.findViewById(R.id.textViewValorAutor);
             livroHolder.textViewValorPaginas = convertView.findViewById(R.id.textViewValorNPaginas);
-            livroHolder.textViewValorDataInicio = convertView.findViewById(R.id.editTextDateInicio);
+            livroHolder.textViewValorDataInicio = convertView.findViewById(R.id.textViewValorDataInicio);
             livroHolder.textViewValorDataFim = convertView.findViewById(R.id.textViewValorDataFim);
             livroHolder.textViewValorStatus = convertView.findViewById(R.id.textViewValorStatus);
             livroHolder.textViewValorTipo = convertView.findViewById(R.id.textViewValorTipo);
@@ -73,18 +81,31 @@ public class LivroAdapter extends BaseAdapter {
         Livro livro = livroList.get(position);
         livroHolder.textViewValorTitulo.setText(livro.getTitulo());
         livroHolder.textViewValorAutor.setText(livro.getAutor());
-        livroHolder.textViewValorPaginas.setText(livro.getNumeroPaginas());
-        livroHolder.textViewValorDataInicio.setText(livro.getDataInicio());
-        livroHolder.textViewValorDataFim.setText(livro.getDataFimLeitura());
+        livroHolder.textViewValorPaginas.setText(String.valueOf(livro.getNumeroPaginas()));
+
+
+        SimpleDateFormat formatadorData = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        String dataInicioF = (livro.getDataInicio() != null) ? formatadorData.format(livro.getDataInicio()) : "-";
+        String dataFimF = (livro.getDataFimLeitura() != null) ? formatadorData.format(livro.getDataFimLeitura()) : "-";
+
+        livroHolder.textViewValorDataInicio.setText(dataInicioF);
+        livroHolder.textViewValorDataFim.setText(dataFimF);
+
+
+        livroHolder.textViewValorAnotacao.setText(livro.getAnotacao());
+        if (livro.isFavorio()){
+            livroHolder.textViewValorFavorito.setText(R.string.favorito);
+        }else {
+            livroHolder.textViewValorFavorito.setText(R.string.nao_favorito);
+        }
+
         livroHolder.textViewValorStatus.setText(livro.getStatus());
         livroHolder.textViewValorTipo.setText(livro.getTipo());
-        livroHolder.textViewValorAnotacao.setText(livro.getAnotacao());
-        livroHolder.textViewValorFavorito.setText(livro.getFavorito());
 
 
 
 
 
-        return null;
+        return convertView;
     }
 }
