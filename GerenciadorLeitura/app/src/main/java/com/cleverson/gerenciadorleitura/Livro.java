@@ -1,15 +1,18 @@
 package com.cleverson.gerenciadorleitura;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
+import java.util.Locale;
 
 
 public class Livro {
-    private Long id;
+    private int id;
     private String titulo;
     private String autor;
     private int numeroPaginas;
-    private LocalDate dataInicio;
-    private LocalDate dataFimLeitura;
+    private Date dataInicio;
+    private Date dataFimLeitura;
     private Tipo tipo;
     private boolean favorio;
     private Status status;
@@ -18,8 +21,8 @@ public class Livro {
     public Livro() {
     }
 
-    public Livro(Long id, String titulo, String autor, int numeroPaginas,
-                 LocalDate dataInicio, LocalDate dataFimLeitura, Tipo tipo, boolean favorio,
+    public Livro(int id, String titulo, String autor, int numeroPaginas,
+                 Date dataInicio, Date dataFimLeitura, Tipo tipo, boolean favorio,
                  Status status, String anotacao) {
         this.id = id;
         this.titulo = titulo;
@@ -33,11 +36,11 @@ public class Livro {
         this.anotacao = anotacao;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -65,19 +68,19 @@ public class Livro {
         this.numeroPaginas = numeroPaginas;
     }
 
-    public LocalDate getDataInicio() {
+    public Date getDataInicio() {
         return dataInicio;
     }
 
-    public void setDataInicio(LocalDate dataInicio) {
+    public void setDataInicio(Date dataInicio) {
         this.dataInicio = dataInicio;
     }
 
-    public LocalDate getDataFimLeitura() {
+    public Date getDataFimLeitura() {
         return dataFimLeitura;
     }
 
-    public void setDataFimLeitura(LocalDate dataFimLeitura) {
+    public void setDataFimLeitura(Date dataFimLeitura) {
         this.dataFimLeitura = dataFimLeitura;
     }
 
@@ -115,17 +118,19 @@ public class Livro {
 
     @Override
     public String toString() {
-        return "Livro{" +
-                "id=" + id +
-                ", titulo='" + titulo + '\'' +
-                ", autor='" + autor + '\'' +
-                ", numeroPaginas=" + numeroPaginas +
-                ", dataInicio=" + dataInicio +
-                ", dataFimLeitura=" + dataFimLeitura +
-                ", tipo='" + tipo + '\'' +
-                ", favorio=" + favorio +
-                ", status='" + status + '\'' +
-                ", anotacao='" + anotacao + '\'' +
-                '}';
+        SimpleDateFormat formatadorData = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        String dataInicioF = (dataInicio != null) ? formatadorData.format(dataInicio) : "-";
+        String dataFimF = (dataFimLeitura != null) ? formatadorData.format(dataFimLeitura) : "-";
+
+        return  titulo + '\n' +
+                autor + '\n' +
+                numeroPaginas+ '\n' +
+                dataInicioF + '\n' +
+                dataFimF + '\n' +
+                tipo + + '\n' +
+                favorio + '\n' +
+                status + '\n' +
+                anotacao;
+
     }
 }

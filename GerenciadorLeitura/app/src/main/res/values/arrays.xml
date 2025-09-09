@@ -11,11 +11,6 @@
         <item>@string/poesia</item>
         <item>@string/politica</item>
     </string-array>
-    <string-array name="status">
-        <item>Lendo</item>
-        <item>Lido</item>
-        <item>Vou ler</item>
-    </string-array>
 
     <string-array name="livros_titulo">
         <item>Java para Iniciantes</item>
@@ -47,7 +42,7 @@
         <item>Joshua Bloch</item>
         <item>Marco Tulio Valente</item>
     </string-array>
-    <intger-array name="livros_paginas">
+    <integer-array name="livros_paginas">
         <item>684</item>
         <item>926</item>
         <item>524</item>
@@ -58,7 +53,8 @@
         <item>403</item>
         <item>411</item>
         <item>395</item>
-    </intger-array>
+    </integer-array>
+
 
     <string-array name="livros_data_inicio">
         <item>20/02/2024</item>
@@ -99,7 +95,7 @@
         <item>3</item>
     </integer-array>
 
-    <string-array name="livros_tipo">
+    <integer-array name="livros_tipo">
         <item>9</item>
         <item>9</item>
         <item>9</item>
@@ -110,7 +106,7 @@
         <item>9</item>
         <item>9</item>
         <item>9</item>
-    </string-array>
+    </integer-array>
 
     <integer-array name="livros_favorito">
         <item>1</item>
