@@ -150,7 +150,7 @@ public class LivroActivity extends AppCompatActivity {
         } else if (radioButtonId == R.id.radioButtonLendo) {
             status = getString(R.string.lendo);
         } else if (radioButtonId == R.id.radioButtonQueroLer) {
-            status = getString(R.string.queroLer);
+            status = getString(R.string.quero_ler);
         } else {
             Toast.makeText(this,
                     "O status é obrigatório!",

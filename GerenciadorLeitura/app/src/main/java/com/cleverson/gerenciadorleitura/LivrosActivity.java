@@ -3,8 +3,11 @@ package com.cleverson.gerenciadorleitura;
 import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.RequiresApi;
@@ -35,8 +38,43 @@ public class LivrosActivity extends AppCompatActivity {
         setContentView(R.layout.activity_livros);
 
         listViewLivros =findViewById(R.id.listViewLivros);
+        listViewLivros.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Livro livro =(Livro) listViewLivros.getItemAtPosition(position);
+                String status = statusLeitura(livro);
+
+                Toast.makeText(
+                        getApplicationContext(),
+                        getString(R.string.livro_de_titulo)+
+                                livro.getTitulo()+
+                                getString(R.string.status_leitura)+
+                                status
+                        ,Toast.LENGTH_LONG
+                ).show();
+            }
+        });
         this.popularListLivros();
 
+    }
+
+    private String statusLeitura(Livro livro){
+        String status=null;
+        switch (livro.getStatus()){
+            case LIDO:
+                status = getString(R.string.lido);
+                break;
+            case LENDO:
+                status = getString(R.string.lendo);
+                break;
+            case VOULER:
+                status = getString(R.string.vou_ler);
+                break;
+            case QUEROLER:
+                status = getString(R.string.quero_ler);
+                break;
+        }
+        return status;
     }
 
 

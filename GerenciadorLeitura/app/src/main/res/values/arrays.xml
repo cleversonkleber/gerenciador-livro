@@ -28,13 +28,10 @@
     <string-array name="livros_autor">
         <item>Herbert Schildt</item>
         <item>
-            Thomas H. Cormen,
-            Charles E. Leiserson,
-            Ronald L. Rivest,
-            Criford Stein
+            Thomas H. Cormen
         </item>
-        <item>Edward Finegan, Robert Liguori</item>
-        <item>Aaron M. Tanenbaum, Yedidyan Langsam, Moshe J. Augenstein</item>
+        <item>Edward Finegan</item>
+        <item>Aaron M. Tanenbaum</item>
         <item>Raymond Gallardo</item>
         <item>Erich Gamma</item>
         <item>Robert C. Martin</item>
@@ -122,16 +119,16 @@
     </integer-array>
 
     <string-array name="livros_anotacao">
-        <item>684</item>
-        <item>926</item>
-        <item>524</item>
-        <item>884</item>
-        <item>710</item>
-        <item>364</item>
-        <item>422</item>
-        <item>403</item>
-        <item>411</item>
-        <item>395</item>
+        <item>Java</item>
+        <item>Algoritmos</item>
+        <item>OCA</item>
+        <item>Estruturas</item>
+        <item>Java</item>
+        <item>Padrões</item>
+        <item>Codigo</item>
+        <item>Arquitetura</item>
+        <item>Java</item>
+        <item>Engenharia</item>
     </string-array>
 
 

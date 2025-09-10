@@ -17,8 +17,6 @@ public class LivroAdapter extends BaseAdapter {
     private Context context;
     private List<Livro> livroList;
 
-    private String[] tipos;
-    private String[] status;
 
     private static class LivroHolder{
         public TextView textViewValorTitulo;
@@ -36,8 +34,6 @@ public class LivroAdapter extends BaseAdapter {
     public LivroAdapter(Context context,List<Livro> livroList) {
         this.livroList = livroList;
         this.context = context;
-        tipos = context.getResources().getStringArray(R.array.tipo);
-        status= context.getResources().getStringArray(R.array.livros_status);
     }
 
     @Override
@@ -93,14 +89,70 @@ public class LivroAdapter extends BaseAdapter {
 
 
         livroHolder.textViewValorAnotacao.setText(livro.getAnotacao());
+
         if (livro.isFavorio()){
-            livroHolder.textViewValorFavorito.setText(R.string.favorito);
+            livroHolder.textViewValorFavorito.setText("Sim");
         }else {
-            livroHolder.textViewValorFavorito.setText(R.string.nao_favorito);
+            livroHolder.textViewValorFavorito.setText("Não");
         }
 
-        livroHolder.textViewValorStatus.setText(livro.getStatus());
-        livroHolder.textViewValorTipo.setText(livro.getTipo());
+        String tipo=null;
+        switch (livro.getTipo()){
+            case ACAO:
+                tipo = context.getString(R.string.acao);
+                break;
+            case AVENTURA:
+                tipo = context.getString(R.string.aventura);
+
+                break;
+            case DRAMA:
+                tipo = context.getString(R.string.drama);
+                break;
+            case POESIA:
+                tipo = context.getString(R.string.poesia);
+
+                break;
+            case TERRRO:
+                tipo = context.getString(R.string.terror);
+                break;
+            case CRISTAO:
+                tipo = context.getString(R.string.cristao);
+                break;
+            case ROMANCE:
+                tipo = context.getString(R.string.romance);
+                break;
+            case POLITICA:
+                tipo = context.getString(R.string.politica);
+                break;
+            case TECNOLOGIA:
+                tipo = context.getString(R.string.tecnologia);
+                break;
+            case FICCAO_CIENTIFICA:
+                tipo = context.getString(R.string.ficcaoo_cientifica);
+                break;
+        }
+
+
+        String status=null;
+        switch (livro.getStatus()){
+            case LIDO:
+                status = context.getString(R.string.lido);
+                break;
+            case LENDO:
+                status = context.getString(R.string.lendo);
+                break;
+            case VOULER:
+                status =context.getString(R.string.vou_ler);
+                break;
+            case QUEROLER:
+                status = context.getString(R.string.quero_ler);
+                break;
+        }
+
+        livroHolder.textViewValorTipo.setText(tipo);
+        livroHolder.textViewValorStatus.setText(status);
+
+
 
 
 
