@@ -40,5 +40,9 @@
     <string name="livro_de_titulo">Livro de Titulo : \"</string>
     <string name="foi_selecionado">\"\n"Foi selecionado!</string>
     <string name="status_leitura">\"\n"Status Leitura :</string>
+    <string name="log_da_utfpr">Logo da UTFPR</string>
+    <string name="descricao">Exemplo do Curso de Desenvolvimento Android UTFPR.</string>
+    <string name="autoria">Aluno: Cleverson Jose Cordeiro</string>
+    <string name="bt_sobre">Sobre</string>
 
 </resources>
