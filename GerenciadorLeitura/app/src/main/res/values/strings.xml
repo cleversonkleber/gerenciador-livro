@@ -47,5 +47,6 @@
     <string name="controle_leitura_livros">Controle de Leitura de Livros</string>
     <string name="barra_sobre">Sobre</string>
     <string name="descricao_app">Descrição: O Gerenciamento de Leitura de Livros é um app criado para organizar e acompanhar o progresso de leitura. \nO sistema permite registrar livros com detalhes como autor, título e número de páginas, além de gerenciar o status de leitura de cada um, classificando-os como \"Lido\", \"Lendo\" ou \"Quero Ler\".</string>
+    <string name="bt_adicionar">Adicionar</string>
 
 </resources>

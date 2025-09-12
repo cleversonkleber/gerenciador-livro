@@ -1,9 +1,11 @@
 package com.cleverson.gerenciadorleitura;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -17,6 +19,15 @@ import java.text.ParseException;
 import java.util.Date;
 
 public class LivroActivity extends AppCompatActivity {
+    public static final String KEY_TITULO = "KEY_TITULO";
+    public static final String KEY_AUTOR = "KEY_AUTOR";
+    public static final String KEY_NUM_PAGINAS = "KEY_NUM_PAGINAS";
+    public static final String KEY_DATA_INICIO = "KEY_DATA_INICIO";
+    public static final String KEY_DATA_FIM = "KEY_DATA_FIM";
+    public static final String KEY_FAVORITO = "KEY_FAVORITO";
+    public static final String KEY_STATUS = "KEY_STATUS";
+    public static final String KEY_TIPO = "KEY_TIPO";
+    public static final String KEY_ANOTACAO = "KEY_ANOTACAO";
     private EditText editTextTitulo,editTextAutor,editTextNPaginas,editTextDateInicio,editTextDateTermino,editTextAnotacao;
     private Button buttonLimpar, buttonSalvar;
     private CheckBox checkBoxFavorito;
@@ -28,6 +39,8 @@ public class LivroActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_livro);
+        setTitle(R.string.cadastro_de_livros);
+
         editTextTitulo = findViewById(R.id.editTextTitulo);
         editTextAutor = findViewById(R.id.editTextAutor);
         editTextNPaginas = findViewById(R.id.editTextNPaginas);
@@ -86,8 +99,18 @@ public class LivroActivity extends AppCompatActivity {
         int radioButtonId = radioGroup.getCheckedRadioButtonId();
         String dataInicio = editTextDateInicio.getText().toString();
         String dataFim = editTextDateTermino.getText().toString();
+        String anotacao = editTextAnotacao.getText().toString();
+        int positionSpinner = spinnerTipo.getSelectedItemPosition();
+
         boolean livroFavorito = checkBoxFavorito.isChecked();
-        String status;
+        Status status ;
+
+        if (positionSpinner== AdapterView.INVALID_POSITION){
+            Toast.makeText(this,
+                    "O Tipo deve ser selecionado!",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
 
 
         if(autor.isEmpty() || titulo.isEmpty() || numeroPaginas.isEmpty()){
@@ -146,11 +169,11 @@ public class LivroActivity extends AppCompatActivity {
 
 
         if (radioButtonId == R.id.radioButtonLido) {
-            status = getString(R.string.lido);
+            status = Status.LIDO;
         } else if (radioButtonId == R.id.radioButtonLendo) {
-            status = getString(R.string.lendo);
+            status = Status.LENDO;
         } else if (radioButtonId == R.id.radioButtonQueroLer) {
-            status = getString(R.string.quero_ler);
+            status = Status.QUEROLER;
         } else {
             Toast.makeText(this,
                     "O status é obrigatório!",
@@ -203,17 +226,19 @@ public class LivroActivity extends AppCompatActivity {
         }
 
 
+        Intent intentResp = new Intent();
+        intentResp.putExtra(KEY_TITULO, titulo);
+        intentResp.putExtra(KEY_AUTOR, autor);
+        intentResp.putExtra(KEY_NUM_PAGINAS, numeroPaginas);
+        intentResp.putExtra(KEY_DATA_INICIO, dataInicio);
+        intentResp.putExtra(KEY_DATA_FIM, dataFim);
+        intentResp.putExtra(KEY_FAVORITO, livroFavorito);
+        intentResp.putExtra(KEY_STATUS, status.toString());
+        intentResp.putExtra(KEY_TIPO, positionSpinner);
+        intentResp.putExtra(KEY_ANOTACAO, anotacao);
 
-        Toast.makeText(this,
-                getString(R.string.titulo)+" : "+ titulo+"\n"+
-                getString(R.string.autor)+" : "+autor+"\n"+
-                getString(R.string.numeroPaginas)+" : "+numeroPaginas+"\n"+
-                getString(R.string.status)+" : "+status+"\n"+
-                "Tipo :"+tipo+"\n"+
-                (livroFavorito ? " Livro favoritado!":"")+"\n"
-
-                , Toast.LENGTH_LONG).show();
-
+        setResult(LivroActivity.RESULT_OK, intentResp);
+        finish();
 
 
     }
