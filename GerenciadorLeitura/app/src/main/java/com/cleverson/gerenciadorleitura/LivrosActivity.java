@@ -1,6 +1,7 @@
 package com.cleverson.gerenciadorleitura;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -36,6 +37,8 @@ public class LivrosActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_livros);
+
+        setTitle(R.string.controle_leitura_livros);
 
         listViewLivros =findViewById(R.id.listViewLivros);
         listViewLivros.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -128,6 +131,11 @@ public class LivrosActivity extends AppCompatActivity {
         listViewLivros.setAdapter(livroAdapter);
 
 
+    }
+
+    public void abrirSobre(View view){
+        Intent intentAbertura = new Intent(this, SobreActivity.class);
+        startActivity(intentAbertura);
     }
 }
 
