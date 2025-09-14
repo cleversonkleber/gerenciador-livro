@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -13,6 +15,7 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.text.ParseException;
@@ -52,29 +55,29 @@ public class LivroActivity extends AppCompatActivity {
         spinnerTipo = findViewById(R.id.spinnerTipo);
         radioGroup = findViewById(R.id.radioGroupStatus);
 
+//
+//        buttonLimpar = findViewById(R.id.buttonLimpar);
+//        buttonSalvar = findViewById(R.id.buttonSalvar);
 
-        buttonLimpar = findViewById(R.id.buttonLimpar);
-        buttonSalvar = findViewById(R.id.buttonSalvar);
-
-        buttonLimpar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                limparCampos(v);
-            }
-        });
-
-        buttonSalvar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                salvarLivro(v);
-            }
-        });
+//        buttonLimpar.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                limparCampos(v);
+//            }
+//        });
+//
+//        buttonSalvar.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                salvarLivro(v);
+//            }
+//        });
 
 
     }
 
 
-    public void limparCampos(View view){
+    public void limparCampos(){
         editTextTitulo.setText("");
         editTextAutor.setText("");
         editTextNPaginas.setText("");
@@ -92,7 +95,7 @@ public class LivroActivity extends AppCompatActivity {
     }
 
     @SuppressLint("NonConstantResourceId")
-    public void salvarLivro(View view){
+    public void salvarLivro(){
         String autor = editTextAutor.getText().toString();
         String titulo = editTextTitulo.getText().toString();
         String numeroPaginas = editTextNPaginas.getText().toString();
@@ -232,6 +235,31 @@ public class LivroActivity extends AppCompatActivity {
         setResult(LivroActivity.RESULT_OK, intentResp);
         finish();
 
+
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.livro_opcores, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int idMenuItem = item.getItemId();
+
+        if (idMenuItem == R.id.menuItemSalvar){
+            salvarLivro();
+            return true;
+        }else {
+            if(idMenuItem == R.id.menuItemLimpar){
+                limparCampos();
+                return true;
+            }else {
+                return super.onOptionsItemSelected(item);
+            }
+        }
 
     }
 

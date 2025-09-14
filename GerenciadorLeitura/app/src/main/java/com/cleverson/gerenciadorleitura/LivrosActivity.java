@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,6 +17,7 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -91,7 +94,7 @@ public class LivrosActivity extends AppCompatActivity {
         livroAdapter.notifyDataSetChanged();
     }
 
-    public void abrirSobre(View view){
+    public void abrirSobre(){
         Intent intentAbertura = new Intent(this, SobreActivity.class);
         startActivity(intentAbertura);
     }
@@ -133,9 +136,33 @@ public class LivrosActivity extends AppCompatActivity {
                 }
             });
 
-    public void adicionarLivro(View view){
+    public void adicionarLivro(){
         Intent intentAbertura=  new Intent(this, LivroActivity.class);
         resultLauncher.launch(intentAbertura);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.livros_opcoes, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int idMenuItem = item.getItemId();
+
+        if (idMenuItem == R.id.menuItemAdicionar){
+            adicionarLivro();
+            return true;
+        }else {
+            if(idMenuItem == R.id.menuItemSobre){
+                abrirSobre();
+                return true;
+            }else {
+                return super.onOptionsItemSelected(item);
+            }
+        }
+
     }
 }
 
