@@ -143,14 +143,6 @@ public class LivroActivity extends AppCompatActivity {
             @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
             Date dataFimValidade = dateFormat.parse(dataFim);
             Date dataInicioValidade = dateFormat.parse(dataInicio);
-            Date hoje = new Date();
-            if (dataFimValidade.before(hoje)) {
-                Toast.makeText(this,
-                        "A data de término não pode ser no passado.",
-                        Toast.LENGTH_LONG
-                ).show();
-                return;
-            }
             if(dataFimValidade.before(dataInicioValidade)){
                 Toast.makeText(this,
                         "A data de término não pode ser menor que a data inicio.",
@@ -229,7 +221,7 @@ public class LivroActivity extends AppCompatActivity {
         Intent intentResp = new Intent();
         intentResp.putExtra(KEY_TITULO, titulo);
         intentResp.putExtra(KEY_AUTOR, autor);
-        intentResp.putExtra(KEY_NUM_PAGINAS, numeroPaginas);
+        intentResp.putExtra(KEY_NUM_PAGINAS, Integer.valueOf(numeroPaginas));
         intentResp.putExtra(KEY_DATA_INICIO, dataInicio);
         intentResp.putExtra(KEY_DATA_FIM, dataFim);
         intentResp.putExtra(KEY_FAVORITO, livroFavorito);

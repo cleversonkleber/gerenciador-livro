@@ -84,57 +84,11 @@ public class LivrosActivity extends AppCompatActivity {
         return status;
     }
 
-
-
-
     private void popularListLivros() {
-//        String[] livros_titulo = getResources().getStringArray(R.array.livros_titulo);
-//        String[] livros_autor = getResources().getStringArray(R.array.livros_autor);
-//        String[] livros_data_inicio = getResources().getStringArray(R.array.livros_data_inicio);
-//        String[] livros_data_fim = getResources().getStringArray(R.array.livros_data_fim);
-//        int[] livros_paginas = getResources().getIntArray(R.array.livros_paginas);
-//        int[] livros_tipo = getResources().getIntArray(R.array.livros_tipo);
-//        int[] livros_status = getResources().getIntArray(R.array.livros_status);
-//        int[] livros_favorito = getResources().getIntArray(R.array.livros_favorito);
-//        String[] livros_anotacao = getResources().getStringArray(R.array.livros_anotacao);
         livroList = new ArrayList<>();
-
-//        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-//        Livro livro;
-//        Status[] status = Status.values();
-//        Tipo[] tipos = Tipo.values();
-//
-//        for (int cont =0;cont < livros_autor.length; cont++){
-//            Date dataInicio =null ;
-//            Date datafim=null;
-//            boolean favorito = (livros_favorito[cont] == 1);
-//            try {
-//                 dataInicio = formatter.parse(livros_data_inicio[cont]);
-//                 datafim = formatter.parse(livros_data_fim[cont]);
-//
-//            }catch (ParseException e){
-//                e.printStackTrace();
-//            }
-//            livro = new Livro (
-//                    cont,
-//                    livros_titulo[cont],
-//                    livros_autor[cont],
-//                    livros_paginas[cont],
-//                    dataInicio,
-//                    datafim,
-//                    tipos[livros_tipo[cont]],
-//                    favorito,
-//                    status[livros_status[cont]],
-//                    livros_anotacao[cont]
-//            );
-//            livroList.add(livro);
-//        }
-
         livroAdapter = new LivroAdapter(this,livroList);
-
         listViewLivros.setAdapter(livroAdapter);
-
-
+        livroAdapter.notifyDataSetChanged();
     }
 
     public void abrirSobre(View view){

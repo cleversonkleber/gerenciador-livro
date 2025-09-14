@@ -10,6 +10,7 @@
         <item>@string/cristao</item>
         <item>@string/poesia</item>
         <item>@string/politica</item>
+        <item>@string/tecnologia</item>
     </string-array>
 
     <string-array name="livros_titulo">

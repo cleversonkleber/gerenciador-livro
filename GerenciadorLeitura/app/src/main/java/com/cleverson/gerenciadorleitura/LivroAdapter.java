@@ -110,7 +110,6 @@ public class LivroAdapter extends BaseAdapter {
                 break;
             case POESIA:
                 tipo = context.getString(R.string.poesia);
-
                 break;
             case TERRRO:
                 tipo = context.getString(R.string.terror);
@@ -151,13 +150,6 @@ public class LivroAdapter extends BaseAdapter {
 
         livroHolder.textViewValorTipo.setText(tipo);
         livroHolder.textViewValorStatus.setText(status);
-
-
-
-
-
-
-
         return convertView;
     }
 }

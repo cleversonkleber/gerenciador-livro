@@ -3,12 +3,12 @@ package com.cleverson.gerenciadorleitura;
 public enum Tipo {
         AVENTURA,
         ACAO,
-        ROMANCE,
-        DRAMA,
-        TERRRO,
-        FICCAO_CIENTIFICA,
         CRISTAO,
+        DRAMA,
+        FICCAO_CIENTIFICA,
         POESIA,
         POLITICA,
-        TECNOLOGIA;
+        TECNOLOGIA,
+        TERRRO,
+        ROMANCE;
 }
