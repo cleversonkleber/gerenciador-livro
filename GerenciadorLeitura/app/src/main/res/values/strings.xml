@@ -50,5 +50,7 @@
     <string name="bt_adicionar">Adicionar</string>
     <string name="adicionar">Adicionar</string>
     <string name="sobre">Sobre</string>
+    <string name="menuItemEditar">Editar</string>
+    <string name="menuItemExcluir">Excluir</string>
 
 </resources>

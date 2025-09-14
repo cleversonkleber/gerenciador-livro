@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -20,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.text.ParseException;
 import java.util.Date;
+import java.util.Locale;
 
 public class LivroActivity extends AppCompatActivity {
     public static final String KEY_TITULO = "KEY_TITULO";
@@ -31,11 +33,23 @@ public class LivroActivity extends AppCompatActivity {
     public static final String KEY_STATUS = "KEY_STATUS";
     public static final String KEY_TIPO = "KEY_TIPO";
     public static final String KEY_ANOTACAO = "KEY_ANOTACAO";
-    private EditText editTextTitulo,editTextAutor,editTextNPaginas,editTextDateInicio,editTextDateTermino,editTextAnotacao;
+    public static final String KEY_MODO = "MODO";
+    public static final int MODO_NOVO = 0;
+    public static final int MODO_EDITAR =1;
+
+    private EditText editTextTitulo,
+            editTextAutor,
+            editTextNPaginas,
+            editTextDateInicio,
+            editTextDateTermino,
+            editTextAnotacao;
     private Button buttonLimpar, buttonSalvar;
     private CheckBox checkBoxFavorito;
     private RadioGroup radioGroup;
     private Spinner spinnerTipo;
+    private RadioButton radioLendo, radioQueroLer, radioLido;
+
+    private int modo;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -54,6 +68,56 @@ public class LivroActivity extends AppCompatActivity {
         checkBoxFavorito = findViewById(R.id.checkBoxFavorito);
         spinnerTipo = findViewById(R.id.spinnerTipo);
         radioGroup = findViewById(R.id.radioGroupStatus);
+
+        radioLendo = findViewById(R.id.radioButtonLendo);
+        radioLido = findViewById(R.id.radioButtonLido);
+        radioQueroLer = findViewById(R.id.radioButtonQueroLer);
+
+
+        Intent intentAbertur =  getIntent();
+        Bundle bundle = intentAbertur.getExtras();
+        if(bundle != null){
+            modo = bundle.getByte(KEY_MODO);
+            if(modo == MODO_NOVO){
+                setTitle("Cadastro de livro");
+            }else {
+                setTitle("Editar Livro");
+                String title = bundle.getString(LivroActivity.KEY_TITULO);
+                String autor = bundle.getString(LivroActivity.KEY_AUTOR);
+                int numerPaginas = bundle.getInt(LivroActivity.KEY_NUM_PAGINAS);
+                String dataInicio = bundle.getString(LivroActivity.KEY_DATA_INICIO);
+                String dataFim = bundle.getString(LivroActivity.KEY_DATA_FIM);
+                boolean favorito = bundle.getBoolean(LivroActivity.KEY_FAVORITO);
+                int tipo = bundle.getInt(LivroActivity.KEY_TIPO);
+                String statusTexo = bundle.getString(LivroActivity.KEY_STATUS);
+                String anotacao = bundle.getString(LivroActivity.KEY_ANOTACAO);
+                Date dataInicioFormat =null ;
+                Date datafimFormat=null;
+
+                Status status = Status.valueOf(statusTexo);
+
+                editTextTitulo.setText(title);
+                editTextAutor.setText(autor);
+                editTextNPaginas.setText(String.valueOf(numerPaginas));
+                editTextDateInicio.setText(dataInicio);
+                editTextDateTermino.setText(dataFim);
+                editTextAnotacao.setText(anotacao);
+
+                checkBoxFavorito.setChecked(favorito);
+                spinnerTipo.setSelection(tipo);
+
+                if(status == Status.LIDO){
+                    radioLido.setActivated(true);
+                }else
+                    if (status ==Status.LENDO){
+                        radioLendo.setActivated(true);
+                    }else
+                        if (status==Status.QUEROLER){
+                            radioQueroLer.setActivated(true);
+                        }
+
+            }
+        }
 
 //
 //        buttonLimpar = findViewById(R.id.buttonLimpar);

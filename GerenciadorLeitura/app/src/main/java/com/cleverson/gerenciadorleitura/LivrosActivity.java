@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,6 +40,8 @@ public class LivrosActivity extends AppCompatActivity {
 
     private LivroAdapter livroAdapter;
 
+    private int posicaoSelecionada = -1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +68,7 @@ public class LivrosActivity extends AppCompatActivity {
             }
         });
         this.popularListLivros();
-
+        registerForContextMenu(listViewLivros);
     }
 
     private String statusLeitura(Livro livro){
@@ -138,6 +141,8 @@ public class LivrosActivity extends AppCompatActivity {
 
     public void adicionarLivro(){
         Intent intentAbertura=  new Intent(this, LivroActivity.class);
+        intentAbertura.putExtra(LivroActivity.KEY_MODO,  LivroActivity.MODO_NOVO);
+
         resultLauncher.launch(intentAbertura);
     }
 
@@ -164,6 +169,106 @@ public class LivrosActivity extends AppCompatActivity {
         }
 
     }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        getMenuInflater().inflate(R.menu.livros_item_selecao, menu);
+
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info;
+        info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        
+        int idMenuItem = item.getItemId();
+        if(idMenuItem == R.id.menuItemEditar){
+            editarLivro(info.position);
+            return true;
+        }else {
+            if(idMenuItem == R.id.menuItemExcluir){
+                excluirLivro(info.position);
+                return true;
+            }else {
+
+                return super.onContextItemSelected(item);
+            }
+        }
+    }
+
+    private void excluirLivro(int position) {
+        livroList.remove(position);
+        livroAdapter.notifyDataSetChanged();
+    }
+
+    ActivityResultLauncher<Intent>launcherEditarLivro=registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if(result.getResultCode() == LivrosActivity.RESULT_OK){
+                        Intent intent= result.getData();
+                        Bundle bundle =  intent.getExtras();
+
+                        if (bundle != null){
+                            String title = bundle.getString(LivroActivity.KEY_TITULO);
+                            String autor = bundle.getString(LivroActivity.KEY_AUTOR);
+                            int numerPaginas = bundle.getInt(LivroActivity.KEY_NUM_PAGINAS);
+                            String dataInicio = bundle.getString(LivroActivity.KEY_DATA_INICIO);
+                            String dataFim = bundle.getString(LivroActivity.KEY_DATA_FIM);
+                            boolean favorito = bundle.getBoolean(LivroActivity.KEY_FAVORITO);
+                            int tipo = bundle.getInt(LivroActivity.KEY_TIPO);
+                            String statusText = bundle.getString(LivroActivity.KEY_STATUS);
+                            String anotacao = bundle.getString(LivroActivity.KEY_ANOTACAO);
+                            Date dataInicioFormat =null ;
+                            Date datafimFormat=null;
+
+                            try {
+                                dataInicioFormat = formatter.parse(dataInicio);
+                                datafimFormat = formatter.parse(dataFim);
+                            } catch (ParseException e) {
+                                throw new RuntimeException(e);
+                            }
+                            Livro livro = livroList.get(posicaoSelecionada);
+                            livro.setTitulo(title);
+                            livro.setAutor(autor);
+                            livro.setNumeroPaginas(numerPaginas);
+                            livro.setDataInicio(dataInicioFormat);
+                            livro.setDataFimLeitura(datafimFormat);
+                            livro.setFavorio(favorito);
+                            livro.setStatus(Status.valueOf(statusText));
+                            livro.setAnotacao(anotacao);
+
+                            livroAdapter.notifyDataSetChanged();
+                        }
+                    }
+                    posicaoSelecionada = -1;
+                }
+            });
+
+    private void editarLivro(int position) {
+        posicaoSelecionada = position;
+        Livro livro =  livroList.get(position);
+        Intent intentAbertura = new Intent(this, LivroActivity.class);
+
+        intentAbertura.putExtra(LivroActivity.KEY_MODO,  LivroActivity.MODO_EDITAR);
+        intentAbertura.putExtra(LivroActivity.KEY_TITULO,livro.getTitulo());
+        intentAbertura.putExtra(LivroActivity.KEY_AUTOR,livro.getAutor());
+        intentAbertura.putExtra(LivroActivity.KEY_NUM_PAGINAS,livro.getNumeroPaginas());
+        intentAbertura.putExtra(LivroActivity.KEY_DATA_INICIO,livro.getDataInicio());
+        intentAbertura.putExtra(LivroActivity.KEY_DATA_FIM,livro.getDataFimLeitura());
+        intentAbertura.putExtra(LivroActivity.KEY_FAVORITO,livro.isFavorio());
+        intentAbertura.putExtra(LivroActivity.KEY_TIPO,livro.getTipo());
+        intentAbertura.putExtra(LivroActivity.KEY_STATUS,livro.getStatus());
+        intentAbertura.putExtra(LivroActivity.KEY_ANOTACAO,livro.getAnotacao());
+        launcherEditarLivro.launch(intentAbertura);
+
+    }
+
+
+
+
 }
 
 
