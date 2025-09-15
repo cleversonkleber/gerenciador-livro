@@ -2,11 +2,19 @@ package com.cleverson.gerenciadorleitura;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Locale;
 
 
 public class Livro {
+
+    public static Comparator<Livro> ordenaCrescente =  new Comparator<Livro>() {
+        @Override
+        public int compare(Livro livro1, Livro livro2) {
+           return livro1.getTitulo().compareTo(livro2.getTitulo());
+        }
+    };
     private int id;
     private String titulo;
     private String autor;
@@ -14,7 +22,7 @@ public class Livro {
     private Date dataInicio;
     private Date dataFimLeitura;
     private Tipo tipo;
-    private boolean favorio;
+    private boolean favorito;
     private Status status;
     private  String anotacao;
 
@@ -22,7 +30,7 @@ public class Livro {
     }
 
     public Livro(int id, String titulo, String autor, int numeroPaginas,
-                 Date dataInicio, Date dataFimLeitura, Tipo tipo, boolean favorio,
+                 Date dataInicio, Date dataFimLeitura, Tipo tipo, boolean favorito,
                  Status status, String anotacao) {
         this.id = id;
         this.titulo = titulo;
@@ -31,7 +39,7 @@ public class Livro {
         this.dataInicio = dataInicio;
         this.dataFimLeitura = dataFimLeitura;
         this.tipo = tipo;
-        this.favorio = favorio;
+        this.favorito = favorito;
         this.status = status;
         this.anotacao = anotacao;
     }
@@ -92,12 +100,12 @@ public class Livro {
         this.tipo = tipo;
     }
 
-    public boolean isFavorio() {
-        return favorio;
+    public boolean isFavorito() {
+        return favorito;
     }
 
-    public void setFavorio(boolean favorio) {
-        this.favorio = favorio;
+    public void setFavorio(boolean favorito) {
+        this.favorito = favorito;
     }
 
     public Status getStatus() {
@@ -128,7 +136,7 @@ public class Livro {
                 dataInicioF + '\n' +
                 dataFimF + '\n' +
                 tipo + + '\n' +
-                favorio + '\n' +
+                favorito + '\n' +
                 status + '\n' +
                 anotacao;
 

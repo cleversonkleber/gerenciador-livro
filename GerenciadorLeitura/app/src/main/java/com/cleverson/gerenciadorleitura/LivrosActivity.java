@@ -1,35 +1,31 @@
 package com.cleverson.gerenciadorleitura;
 
-import android.annotation.SuppressLint;
+
 import android.content.Intent;
-import android.os.Build;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.appcompat.view.ActionMode;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -41,6 +37,56 @@ public class LivrosActivity extends AppCompatActivity {
     private LivroAdapter livroAdapter;
 
     private int posicaoSelecionada = -1;
+
+    private ActionMode actionMode;
+
+    private View viewSelecionada;
+    private Drawable backgroudDrawable;
+
+    private ActionMode.Callback actionCallback = new ActionMode.Callback() {
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            MenuInflater inflater = mode.getMenuInflater();
+            inflater.inflate(R.menu.livros_item_selecao, menu);
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+             int idMenuItem = item.getItemId();
+            if(idMenuItem == R.id.menuItemEditar){
+                editarLivro();
+                return true;
+            }else {
+                if(idMenuItem == R.id.menuItemExcluir){
+                    excluirLivro();
+                    mode.finish();
+                    return true;
+                }else {
+
+                    return false;
+                }
+            }
+
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            if(viewSelecionada != null){
+                viewSelecionada.setBackground(backgroudDrawable);
+
+            }
+            actionMode = null;
+            viewSelecionada=null;
+            backgroudDrawable=null;
+            listViewLivros.setEnabled(true);
+        }
+    };
 
 
     @Override
@@ -65,6 +111,24 @@ public class LivrosActivity extends AppCompatActivity {
                                 status
                         ,Toast.LENGTH_LONG
                 ).show();
+            }
+        });
+
+        listViewLivros.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                if(actionMode != null) {
+                    return false;
+                }
+                posicaoSelecionada = position;
+                viewSelecionada = view;
+                backgroudDrawable = view.getBackground();
+                view.setBackgroundColor(Color.LTGRAY);
+                listViewLivros.setEnabled(false);
+                actionMode = startSupportActionMode(actionCallback);
+
+                return true;
             }
         });
         this.popularListLivros();
@@ -93,6 +157,7 @@ public class LivrosActivity extends AppCompatActivity {
     private void popularListLivros() {
         livroList = new ArrayList<>();
         livroAdapter = new LivroAdapter(this,livroList);
+
         listViewLivros.setAdapter(livroAdapter);
         livroAdapter.notifyDataSetChanged();
     }
@@ -134,8 +199,13 @@ public class LivrosActivity extends AppCompatActivity {
                                     datafimFormat,Tipo.values()[tipo],favorito,Status.valueOf(status),anotacao);
 
                             livroList.add(livro);
+                            Collections.sort(livroList, Livro.ordenaCrescente);
+                            livroAdapter.notifyDataSetChanged();
+
                         }
                     }
+                    posicaoSelecionada =-1;
+
                 }
             });
 
@@ -177,28 +247,10 @@ public class LivrosActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean onContextItemSelected(@NonNull MenuItem item) {
-        AdapterView.AdapterContextMenuInfo info;
-        info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        
-        int idMenuItem = item.getItemId();
-        if(idMenuItem == R.id.menuItemEditar){
-            editarLivro(info.position);
-            return true;
-        }else {
-            if(idMenuItem == R.id.menuItemExcluir){
-                excluirLivro(info.position);
-                return true;
-            }else {
 
-                return super.onContextItemSelected(item);
-            }
-        }
-    }
 
-    private void excluirLivro(int position) {
-        livroList.remove(position);
+    private void excluirLivro() {
+        livroList.remove(posicaoSelecionada);
         livroAdapter.notifyDataSetChanged();
     }
 
@@ -212,6 +264,7 @@ public class LivrosActivity extends AppCompatActivity {
                         Bundle bundle =  intent.getExtras();
 
                         if (bundle != null){
+                            Tipo[] tipos = Tipo.values();
                             String title = bundle.getString(LivroActivity.KEY_TITULO);
                             String autor = bundle.getString(LivroActivity.KEY_AUTOR);
                             int numerPaginas = bundle.getInt(LivroActivity.KEY_NUM_PAGINAS);
@@ -238,29 +291,42 @@ public class LivrosActivity extends AppCompatActivity {
                             livro.setDataFimLeitura(datafimFormat);
                             livro.setFavorio(favorito);
                             livro.setStatus(Status.valueOf(statusText));
+                            livro.setTipo(tipos[tipo]);
                             livro.setAnotacao(anotacao);
+
+                            Collections.sort(livroList, Livro.ordenaCrescente);
 
                             livroAdapter.notifyDataSetChanged();
                         }
                     }
                     posicaoSelecionada = -1;
+                    if (actionMode != null){
+                        actionMode.finish();
+                    }
                 }
             });
 
-    private void editarLivro(int position) {
-        posicaoSelecionada = position;
-        Livro livro =  livroList.get(position);
+    private void editarLivro() {
+
+        Livro livro =  livroList.get(posicaoSelecionada);
         Intent intentAbertura = new Intent(this, LivroActivity.class);
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        String dataInicioFormat =null ;
+        String datafimFormat=null;
+
+        dataInicioFormat = formatter.format(livro.getDataInicio());
+        datafimFormat = formatter.format(livro.getDataFimLeitura());
+
 
         intentAbertura.putExtra(LivroActivity.KEY_MODO,  LivroActivity.MODO_EDITAR);
         intentAbertura.putExtra(LivroActivity.KEY_TITULO,livro.getTitulo());
         intentAbertura.putExtra(LivroActivity.KEY_AUTOR,livro.getAutor());
         intentAbertura.putExtra(LivroActivity.KEY_NUM_PAGINAS,livro.getNumeroPaginas());
-        intentAbertura.putExtra(LivroActivity.KEY_DATA_INICIO,livro.getDataInicio());
-        intentAbertura.putExtra(LivroActivity.KEY_DATA_FIM,livro.getDataFimLeitura());
-        intentAbertura.putExtra(LivroActivity.KEY_FAVORITO,livro.isFavorio());
-        intentAbertura.putExtra(LivroActivity.KEY_TIPO,livro.getTipo());
-        intentAbertura.putExtra(LivroActivity.KEY_STATUS,livro.getStatus());
+        intentAbertura.putExtra(LivroActivity.KEY_DATA_INICIO,dataInicioFormat);
+        intentAbertura.putExtra(LivroActivity.KEY_DATA_FIM,datafimFormat);
+        intentAbertura.putExtra(LivroActivity.KEY_FAVORITO,livro.isFavorito());
+        intentAbertura.putExtra(LivroActivity.KEY_TIPO,livro.getTipo().ordinal());
+        intentAbertura.putExtra(LivroActivity.KEY_STATUS,livro.getStatus().toString());
         intentAbertura.putExtra(LivroActivity.KEY_ANOTACAO,livro.getAnotacao());
         launcherEditarLivro.launch(intentAbertura);
 

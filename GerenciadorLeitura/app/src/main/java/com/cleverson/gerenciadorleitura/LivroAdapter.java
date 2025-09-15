@@ -90,7 +90,7 @@ public class LivroAdapter extends BaseAdapter {
 
         livroHolder.textViewValorAnotacao.setText(livro.getAnotacao());
 
-        if (livro.isFavorio()){
+        if (livro.isFavorito()){
             livroHolder.textViewValorFavorito.setText("Sim");
         }else {
             livroHolder.textViewValorFavorito.setText("Não");
@@ -152,4 +152,5 @@ public class LivroAdapter extends BaseAdapter {
         livroHolder.textViewValorStatus.setText(status);
         return convertView;
     }
+
 }

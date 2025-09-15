@@ -77,10 +77,12 @@ public class LivroActivity extends AppCompatActivity {
         Intent intentAbertur =  getIntent();
         Bundle bundle = intentAbertur.getExtras();
         if(bundle != null){
-            modo = bundle.getByte(KEY_MODO);
+            modo = bundle.getInt(KEY_MODO);
             if(modo == MODO_NOVO){
                 setTitle("Cadastro de livro");
             }else {
+
+
                 setTitle("Editar Livro");
                 String title = bundle.getString(LivroActivity.KEY_TITULO);
                 String autor = bundle.getString(LivroActivity.KEY_AUTOR);
@@ -107,13 +109,13 @@ public class LivroActivity extends AppCompatActivity {
                 spinnerTipo.setSelection(tipo);
 
                 if(status == Status.LIDO){
-                    radioLido.setActivated(true);
+                    radioLido.setChecked(true);
                 }else
                     if (status ==Status.LENDO){
-                        radioLendo.setActivated(true);
+                        radioLendo.setChecked(true);
                     }else
                         if (status==Status.QUEROLER){
-                            radioQueroLer.setActivated(true);
+                            radioQueroLer.setChecked(true);
                         }
 
             }

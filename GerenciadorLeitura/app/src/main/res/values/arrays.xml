@@ -3,13 +3,13 @@
     <string-array name="tipo">
         <item>@string/aventura</item>
         <item>@string/acao</item>
-        <item>@string/romance</item>
-        <item>@string/drama</item>
-        <item>@string/terror</item>
-        <item>@string/ficcaoo_cientifica</item>
         <item>@string/cristao</item>
+        <item>@string/drama</item>
+        <item>@string/ficcaoo_cientifica</item>
         <item>@string/poesia</item>
         <item>@string/politica</item>
+        <item>@string/romance</item>
+        <item>@string/terror</item>
         <item>@string/tecnologia</item>
     </string-array>
 

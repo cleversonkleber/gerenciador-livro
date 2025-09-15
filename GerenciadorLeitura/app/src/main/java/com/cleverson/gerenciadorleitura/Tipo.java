@@ -8,7 +8,7 @@ public enum Tipo {
         FICCAO_CIENTIFICA,
         POESIA,
         POLITICA,
-        TECNOLOGIA,
+        ROMANCE,
         TERRRO,
-        ROMANCE;
+        TECNOLOGIA;
 }
