@@ -43,6 +43,8 @@ public class LivrosActivity extends AppCompatActivity {
     private View viewSelecionada;
     private Drawable backgroudDrawable;
 
+    public static final String ARQUIVO_PREFERENCIAS="com.cleverson.gerenciadorleitura.PREFERENCIAS";
+
     private ActionMode.Callback actionCallback = new ActionMode.Callback() {
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {

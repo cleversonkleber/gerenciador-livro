@@ -11,4 +11,7 @@
         android:icon="@mipmap/ic_launcher_clear_foreground"
         android:title="@string/limpar"
         app:showAsAction="ifRoom" />
+    <item
+        android:checkable="true"
+        android:title="Item" />
 </menu>

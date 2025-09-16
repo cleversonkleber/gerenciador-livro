@@ -1,7 +1,9 @@
 package com.cleverson.gerenciadorleitura;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.view.Menu;
@@ -36,6 +38,9 @@ public class LivroActivity extends AppCompatActivity {
     public static final String KEY_MODO = "MODO";
     public static final int MODO_NOVO = 0;
     public static final int MODO_EDITAR =1;
+    public static final String KEY_SUGERIR_TIPO="SUGERIR_TIPO";
+    public static final String KEY_ULTIMO_TIPO="ULTIMO_TIPO";
+
 
     private EditText editTextTitulo,
             editTextAutor,
@@ -48,8 +53,10 @@ public class LivroActivity extends AppCompatActivity {
     private RadioGroup radioGroup;
     private Spinner spinnerTipo;
     private RadioButton radioLendo, radioQueroLer, radioLido;
-
     private int modo;
+    private boolean sugerirTipo=false;
+    private int ultimoTipo =0;
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -73,6 +80,7 @@ public class LivroActivity extends AppCompatActivity {
         radioLido = findViewById(R.id.radioButtonLido);
         radioQueroLer = findViewById(R.id.radioButtonQueroLer);
 
+        lerPreferncias();
 
         Intent intentAbertur =  getIntent();
         Bundle bundle = intentAbertur.getExtras();
@@ -120,25 +128,6 @@ public class LivroActivity extends AppCompatActivity {
 
             }
         }
-
-//
-//        buttonLimpar = findViewById(R.id.buttonLimpar);
-//        buttonSalvar = findViewById(R.id.buttonSalvar);
-
-//        buttonLimpar.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                limparCampos(v);
-//            }
-//        });
-//
-//        buttonSalvar.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                salvarLivro(v);
-//            }
-//        });
-
 
     }
 
@@ -327,6 +316,20 @@ public class LivroActivity extends AppCompatActivity {
             }
         }
 
+    }
+
+    private void lerPreferncias(){
+        SharedPreferences preferences = getSharedPreferences(LivrosActivity.ARQUIVO_PREFERENCIAS, Context.MODE_PRIVATE);
+        sugerirTipo =  preferences.getBoolean(KEY_SUGERIR_TIPO, sugerirTipo);
+        ultimoTipo = preferences.getInt(KEY_ULTIMO_TIPO, ultimoTipo);
+
+
+    }
+
+    private void salvarSugerirTipo(boolean novoValor){
+        SharedPreferences preferences = getSharedPreferences(LivrosActivity.ARQUIVO_PREFERENCIAS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean(KEY_ULTIMO_TIPO, novoValor);
     }
 
 
