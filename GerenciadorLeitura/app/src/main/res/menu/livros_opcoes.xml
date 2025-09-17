@@ -10,4 +10,12 @@
     <item
         android:id="@+id/menuItemSobre"
         android:title="@string/sobre" />
+    <item
+        android:id="@+id/menuItemOrdenacao"
+        android:icon="@drawable/ic_action_asc_order"
+        android:title="@string/ordenacao"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menuItemRestaurar"
+        android:title="@string/restaurar" />
 </menu>

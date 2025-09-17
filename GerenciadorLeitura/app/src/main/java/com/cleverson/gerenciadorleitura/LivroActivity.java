@@ -88,6 +88,9 @@ public class LivroActivity extends AppCompatActivity {
             modo = bundle.getInt(KEY_MODO);
             if(modo == MODO_NOVO){
                 setTitle("Cadastro de livro");
+                if(sugerirTipo){
+                    spinnerTipo.setSelection(ultimoTipo);
+                }
             }else {
 
 
@@ -274,7 +277,7 @@ public class LivroActivity extends AppCompatActivity {
                     ).show();
             return;
         }
-
+        salvarUltimoTipo(positionSpinner);
 
         Intent intentResp = new Intent();
         intentResp.putExtra(KEY_TITULO, titulo);
@@ -301,20 +304,36 @@ public class LivroActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem item = menu.findItem(R.id.menuSugerirTipo);
+        item.setChecked(sugerirTipo);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int idMenuItem = item.getItemId();
 
         if (idMenuItem == R.id.menuItemSalvar){
             salvarLivro();
             return true;
-        }else {
+        }else
             if(idMenuItem == R.id.menuItemLimpar){
                 limparCampos();
                 return true;
-            }else {
-                return super.onOptionsItemSelected(item);
-            }
-        }
+            }else
+                if (idMenuItem == R.id.menuSugerirTipo){
+                    boolean valor = !item.isChecked();
+                    salvarSugerirTipo(valor);
+                    item.setChecked(valor);
+                    if(sugerirTipo){
+                        spinnerTipo.setSelection(ultimoTipo);
+                    }
+                    return true;
+                }else {
+                    return super.onOptionsItemSelected(item);
+                }
+
 
     }
 
@@ -329,8 +348,23 @@ public class LivroActivity extends AppCompatActivity {
     private void salvarSugerirTipo(boolean novoValor){
         SharedPreferences preferences = getSharedPreferences(LivrosActivity.ARQUIVO_PREFERENCIAS, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean(KEY_ULTIMO_TIPO, novoValor);
+        editor.putBoolean(KEY_SUGERIR_TIPO, novoValor);
+
+        editor.commit();
+        sugerirTipo = novoValor;
     }
+
+
+    private void salvarUltimoTipo(int novoValor){
+        SharedPreferences preferences = getSharedPreferences(LivrosActivity.ARQUIVO_PREFERENCIAS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt(KEY_ULTIMO_TIPO, novoValor);
+
+        editor.commit();
+        ultimoTipo = novoValor;
+    }
+
+
 
 
 

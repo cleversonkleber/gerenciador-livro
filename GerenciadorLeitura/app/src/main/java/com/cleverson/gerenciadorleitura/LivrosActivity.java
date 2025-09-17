@@ -1,7 +1,9 @@
 package com.cleverson.gerenciadorleitura;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -44,6 +46,13 @@ public class LivrosActivity extends AppCompatActivity {
     private Drawable backgroudDrawable;
 
     public static final String ARQUIVO_PREFERENCIAS="com.cleverson.gerenciadorleitura.PREFERENCIAS";
+
+    public static final String KEY_ORDENACAO_ASC="KEY_ORDENACAO_ASC";
+
+    public static final boolean PADRAO_INICIAL_ORDENACAO_ASCENDENTE=true;
+    private boolean ordenaAsc = PADRAO_INICIAL_ORDENACAO_ASCENDENTE;
+
+    private MenuItem menuItemAcao;
 
     private ActionMode.Callback actionCallback = new ActionMode.Callback() {
         @Override
@@ -133,6 +142,7 @@ public class LivrosActivity extends AppCompatActivity {
                 return true;
             }
         });
+        lerPreferencias();
         this.popularListLivros();
         registerForContextMenu(listViewLivros);
     }
@@ -201,8 +211,6 @@ public class LivrosActivity extends AppCompatActivity {
                                     datafimFormat,Tipo.values()[tipo],favorito,Status.valueOf(status),anotacao);
 
                             livroList.add(livro);
-                            Collections.sort(livroList, Livro.ordenaCrescente);
-                            livroAdapter.notifyDataSetChanged();
 
                         }
                     }
@@ -221,6 +229,7 @@ public class LivrosActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.livros_opcoes, menu);
+        menuItemAcao = menu.findItem(R.id.menuItemOrdenacao);
         return true;
     }
 
@@ -235,8 +244,27 @@ public class LivrosActivity extends AppCompatActivity {
             if(idMenuItem == R.id.menuItemSobre){
                 abrirSobre();
                 return true;
-            }else {
-                return super.onOptionsItemSelected(item);
+            }else
+            if(idMenuItem==R.id.menuItemOrdenacao){
+
+                salvarPreferenciaOrdenacaoAscendente(!ordenaAsc);
+                atualizarIconOrdenacao();
+                ordenarLista();
+                return true;
+            }else{
+                if (idMenuItem == R.id.menuItemRestaurar){
+                    restaurarPadres();
+                    atualizarIconOrdenacao();
+                    ordenarLista();
+                    Toast.makeText(this,
+                            R.string.restaurar_configuracoes_padrao_instalacao,
+                            Toast.LENGTH_LONG
+                    ).show();
+
+                    return true;
+                }else {
+                    return super.onOptionsItemSelected(item);
+                }
             }
         }
 
@@ -249,7 +277,11 @@ public class LivrosActivity extends AppCompatActivity {
 
     }
 
-
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        atualizarIconOrdenacao();
+        return true;
+    }
 
     private void excluirLivro() {
         livroList.remove(posicaoSelecionada);
@@ -296,9 +328,7 @@ public class LivrosActivity extends AppCompatActivity {
                             livro.setTipo(tipos[tipo]);
                             livro.setAnotacao(anotacao);
 
-                            Collections.sort(livroList, Livro.ordenaCrescente);
 
-                            livroAdapter.notifyDataSetChanged();
                         }
                     }
                     posicaoSelecionada = -1;
@@ -334,7 +364,44 @@ public class LivrosActivity extends AppCompatActivity {
 
     }
 
+    private void ordenarLista(){
+        if(ordenaAsc){
+            Collections.sort(livroList, Livro.ordenaCrescente);
+        }else {
+            Collections.sort(livroList, Livro.ordenaDeCrescente);
+        }
+        livroAdapter.notifyDataSetChanged();
+    }
 
+    private void lerPreferencias(){
+        SharedPreferences preferences = getSharedPreferences(ARQUIVO_PREFERENCIAS, Context.MODE_PRIVATE);
+        ordenaAsc = preferences.getBoolean(KEY_ORDENACAO_ASC, ordenaAsc);
+
+    }
+
+    private void salvarPreferenciaOrdenacaoAscendente(boolean novoValor){
+        SharedPreferences preferences = getSharedPreferences(ARQUIVO_PREFERENCIAS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor edito = preferences.edit();
+        edito.commit();
+
+        ordenaAsc = novoValor;
+    }
+
+    private  void atualizarIconOrdenacao(){
+        if (ordenaAsc){
+            menuItemAcao.setIcon(R.drawable.ic_action_asc_order);
+        }else {
+           menuItemAcao.setIcon(R.drawable.ic_action_desc_order);
+        }
+    }
+
+    private void restaurarPadres(){
+        SharedPreferences preferences = getSharedPreferences(ARQUIVO_PREFERENCIAS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor edito = preferences.edit();
+        edito.clear();
+        edito.commit();
+        ordenaAsc = PADRAO_INICIAL_ORDENACAO_ASCENDENTE;
+    }
 
 
 }

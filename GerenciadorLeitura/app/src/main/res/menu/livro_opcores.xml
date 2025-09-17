@@ -12,6 +12,7 @@
         android:title="@string/limpar"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/menuSugerirTipo"
         android:checkable="true"
-        android:title="Item" />
+        android:title="@string/sugerir_tipo" />
 </menu>

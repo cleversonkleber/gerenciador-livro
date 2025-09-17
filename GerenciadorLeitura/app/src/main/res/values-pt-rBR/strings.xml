@@ -53,4 +53,5 @@
     <string name="menuItemEditar">Editar</string>
     <string name="menuItemExcluir">Excluir</string>
     <string name="nome_utfpr_por_extenso">UNIVERSIDADE TECNOLOGICA FEDERAL DO PARANÁ</string>
+    <string name="sugerir_tipo">Sugerir Tipo</string>
 </resources>

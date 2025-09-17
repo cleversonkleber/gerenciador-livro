@@ -15,6 +15,13 @@ public class Livro {
            return livro1.getTitulo().compareTo(livro2.getTitulo());
         }
     };
+
+    public static Comparator<Livro> ordenaDeCrescente =  new Comparator<Livro>() {
+        @Override
+        public int compare(Livro livro1, Livro livro2) {
+            return livro2.getTitulo().compareTo(livro1.getTitulo());
+        }
+    };
     private int id;
     private String titulo;
     private String autor;

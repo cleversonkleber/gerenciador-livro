@@ -53,4 +53,8 @@
     <string name="autor">Book Author</string>
     <string name="autor_valor">Book Author :</string>
     <string name="nome_utfpr_por_extenso">FEDERAL UNIVERSITY OF TECHNOLOGY - PARANA</string>
+    <string name="sugerir_tipo" >Sugestion Type</string>
+    <string name="ordenacao">Ordenação</string>
+    <string name="restaurar">Restaurar Padrões</string>
+    <string name="restaurar_configuracoes_padrao_instalacao">As Configurações foram restauradas para o padrão de instalação!</string>
 </resources>
