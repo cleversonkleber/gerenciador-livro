@@ -8,7 +8,7 @@
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/menuItemLimpar"
-        android:icon="@mipmap/ic_launcher_clear_foreground"
+        android:icon="@drawable/ic_clear"
         android:title="@string/limpar"
         app:showAsAction="ifRoom" />
     <item

@@ -8,7 +8,6 @@ import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -23,7 +22,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.text.ParseException;
 import java.util.Date;
-import java.util.Locale;
 
 public class LivroActivity extends AppCompatActivity {
     public static final String KEY_TITULO = "KEY_TITULO";
@@ -87,14 +85,14 @@ public class LivroActivity extends AppCompatActivity {
         if(bundle != null){
             modo = bundle.getInt(KEY_MODO);
             if(modo == MODO_NOVO){
-                setTitle("Cadastro de livro");
+                setTitle(R.string.cadastro_de_livros);
                 if(sugerirTipo){
                     spinnerTipo.setSelection(ultimoTipo);
                 }
             }else {
 
 
-                setTitle("Editar Livro");
+                setTitle(getString(R.string.editar_livro));
                 String title = bundle.getString(LivroActivity.KEY_TITULO);
                 String autor = bundle.getString(LivroActivity.KEY_AUTOR);
                 int numerPaginas = bundle.getInt(LivroActivity.KEY_NUM_PAGINAS);
@@ -147,7 +145,7 @@ public class LivroActivity extends AppCompatActivity {
         radioGroup.clearCheck();
 
         Toast.makeText(this,
-                "Os o valor dos campos foram apagados!",
+                R.string.os_o_valor_dos_campos_foram_apagados,
                 Toast.LENGTH_LONG).show();
 
     }
@@ -168,7 +166,7 @@ public class LivroActivity extends AppCompatActivity {
 
         if (positionSpinner== AdapterView.INVALID_POSITION){
             Toast.makeText(this,
-                    "O Tipo deve ser selecionado!",
+                    R.string.o_tipo_deve_ser_selecionado,
                     Toast.LENGTH_LONG).show();
             return;
         }
@@ -177,7 +175,7 @@ public class LivroActivity extends AppCompatActivity {
         if(autor.isEmpty() || titulo.isEmpty() || numeroPaginas.isEmpty()){
             System.out.println("Teste");
             Toast.makeText(this,
-                    "É obrigatorio incluir: Autor e Titulo do Livro e a quantidade de paginas!",
+                    R.string.obrigatorio_incluir_autor_e_titulo_do_livro_e_a_quantidade_de_paginas,
                     Toast.LENGTH_LONG).show();
                 return;
 
@@ -187,14 +185,14 @@ public class LivroActivity extends AppCompatActivity {
              int  paginas = Integer.parseInt(numeroPaginas);
              if(paginas < 10) {
                 Toast.makeText(this,
-                        "O livro deve conter no mínimo 10 paginas!",
+                        R.string.o_livro_deve_conter_no_m_nimo_10_paginas,
                         Toast.LENGTH_LONG).show();
                 return;
 
             }
         }catch (NumberFormatException e){
             Toast.makeText(this,
-                    "Por favor digite um número válido de paginas!",
+                    R.string.por_favor_digite_um_n_mero_v_lido_de_paginas,
                     Toast.LENGTH_LONG).show();
             return;
         }
@@ -206,7 +204,7 @@ public class LivroActivity extends AppCompatActivity {
             Date dataInicioValidade = dateFormat.parse(dataInicio);
             if(dataFimValidade.before(dataInicioValidade)){
                 Toast.makeText(this,
-                        "A data de término não pode ser menor que a data inicio.",
+                        R.string.a_data_de_t_rmino_n_o_pode_ser_menor_que_a_data_inicio,
                         Toast.LENGTH_LONG
                 ).show();
                 return;
@@ -214,7 +212,7 @@ public class LivroActivity extends AppCompatActivity {
 
         } catch (ParseException e) {
             Toast.makeText(this,
-                    "Erro ao validar a data. Use o formato DD/MM/YYYY.",
+                    R.string.erro_ao_validar_a_data_use_o_formato_dd_mm_yyyy,
                     Toast.LENGTH_LONG
             ).show();
             return;
@@ -229,7 +227,7 @@ public class LivroActivity extends AppCompatActivity {
             status = Status.QUEROLER;
         } else {
             Toast.makeText(this,
-                    "O status é obrigatório!",
+                    R.string.o_status_obrigat_rio,
                     Toast.LENGTH_LONG
             ).show();
             return;
@@ -239,7 +237,7 @@ public class LivroActivity extends AppCompatActivity {
 
         if(dataInicio.isEmpty() || dataFim.isEmpty()){
             Toast.makeText(this,
-                    "È necessário informar a data de inicio e fim!",
+                    R.string.necess_rio_informar_a_data_de_inicio_e_fim,
                     Toast.LENGTH_LONG
             ).show();
             return;
@@ -251,7 +249,7 @@ public class LivroActivity extends AppCompatActivity {
 
         ){
             Toast.makeText(this,
-                    "Formato de data de início inválido. Favor usar o padrão DD/MM/YYYY.",
+                    R.string.formato_de_data_de_in_cio_inv_lido_favor_usar_o_padr_o_dd_mm_yyyy,
                     Toast.LENGTH_LONG
             ).show();
             return;
@@ -262,7 +260,7 @@ public class LivroActivity extends AppCompatActivity {
                 || dataFim.charAt(5) !='/'
         ){
             Toast.makeText(this,
-                    "Formato de data de término inválido. Favor usar o padrão DD/MM/YYYY.",
+                    R.string.formato_de_data_de_t_rmino_inv_lido_favor_usar_o_padr_o_dd_mm_yyyy,
                     Toast.LENGTH_LONG
             ).show();
             return;
@@ -272,7 +270,7 @@ public class LivroActivity extends AppCompatActivity {
         String tipo = (String) spinnerTipo.getSelectedItem();
         if(tipo==null){
             Toast.makeText(this,
-                    "O tipo é obrigatório!",
+                    R.string.o_tipo_obrigat_rio,
                     Toast.LENGTH_LONG
                     ).show();
             return;
@@ -299,7 +297,7 @@ public class LivroActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.livro_opcores, menu);
+        getMenuInflater().inflate(R.menu.livro_operacoes, menu);
         return true;
     }
 

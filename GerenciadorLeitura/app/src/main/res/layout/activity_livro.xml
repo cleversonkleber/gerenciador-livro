@@ -31,7 +31,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.26"
             app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="24dp" />
+            tools:layout_editor_absoluteY="24dp"
+            tools:ignore="MissingConstraints" />
 
         <EditText
             android:id="@+id/editTextTitulo"
