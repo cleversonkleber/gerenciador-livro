@@ -20,6 +20,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.cleverson.gerenciadorleitura.utils.UtilsAlert;
+
 import java.text.ParseException;
 import java.util.Date;
 
@@ -144,9 +146,10 @@ public class LivroActivity extends AppCompatActivity {
         editTextTitulo.requestFocus();
         radioGroup.clearCheck();
 
-        Toast.makeText(this,
-                R.string.os_o_valor_dos_campos_foram_apagados,
-                Toast.LENGTH_LONG).show();
+        UtilsAlert.mostrarAviso(this,
+                R.string.os_o_valor_dos_campos_foram_apagados
+        );
+
 
     }
 
@@ -165,18 +168,17 @@ public class LivroActivity extends AppCompatActivity {
         Status status ;
 
         if (positionSpinner== AdapterView.INVALID_POSITION){
-            Toast.makeText(this,
-                    R.string.o_tipo_deve_ser_selecionado,
-                    Toast.LENGTH_LONG).show();
+            UtilsAlert.mostrarAviso(this,
+                    R.string.o_tipo_deve_ser_selecionado
+            );
             return;
         }
 
 
         if(autor.isEmpty() || titulo.isEmpty() || numeroPaginas.isEmpty()){
-            System.out.println("Teste");
-            Toast.makeText(this,
-                    R.string.obrigatorio_incluir_autor_e_titulo_do_livro_e_a_quantidade_de_paginas,
-                    Toast.LENGTH_LONG).show();
+            UtilsAlert.mostrarAviso(this,
+                    R.string.obrigatorio_incluir_autor_e_titulo_do_livro_e_a_quantidade_de_paginas
+            );
                 return;
 
         }
@@ -184,16 +186,18 @@ public class LivroActivity extends AppCompatActivity {
         try {
              int  paginas = Integer.parseInt(numeroPaginas);
              if(paginas < 10) {
-                Toast.makeText(this,
-                        R.string.o_livro_deve_conter_no_m_nimo_10_paginas,
-                        Toast.LENGTH_LONG).show();
+                 UtilsAlert.mostrarAviso(this,
+                         R.string.o_livro_deve_conter_no_m_nimo_10_paginas
+                 );
                 return;
 
             }
         }catch (NumberFormatException e){
-            Toast.makeText(this,
-                    R.string.por_favor_digite_um_n_mero_v_lido_de_paginas,
-                    Toast.LENGTH_LONG).show();
+            UtilsAlert.mostrarAviso(this,
+                    R.string.por_favor_digite_um_n_mero_v_lido_de_paginas
+            );
+
+
             return;
         }
 
@@ -203,18 +207,18 @@ public class LivroActivity extends AppCompatActivity {
             Date dataFimValidade = dateFormat.parse(dataFim);
             Date dataInicioValidade = dateFormat.parse(dataInicio);
             if(dataFimValidade.before(dataInicioValidade)){
-                Toast.makeText(this,
-                        R.string.a_data_de_t_rmino_n_o_pode_ser_menor_que_a_data_inicio,
-                        Toast.LENGTH_LONG
-                ).show();
+                UtilsAlert.mostrarAviso(this,
+                        R.string.a_data_de_t_rmino_n_o_pode_ser_menor_que_a_data_inicio
+                );
+
                 return;
             }
 
         } catch (ParseException e) {
-            Toast.makeText(this,
-                    R.string.erro_ao_validar_a_data_use_o_formato_dd_mm_yyyy,
-                    Toast.LENGTH_LONG
-            ).show();
+            UtilsAlert.mostrarAviso(this,
+                    R.string.erro_ao_validar_a_data_use_o_formato_dd_mm_yyyy
+            );
+
             return;
         }
 
@@ -226,20 +230,21 @@ public class LivroActivity extends AppCompatActivity {
         } else if (radioButtonId == R.id.radioButtonQueroLer) {
             status = Status.QUEROLER;
         } else {
-            Toast.makeText(this,
-                    R.string.o_status_obrigat_rio,
-                    Toast.LENGTH_LONG
-            ).show();
+            UtilsAlert.mostrarAviso(this,
+                    R.string.o_status_obrigat_rio
+            );
+
             return;
         }
 
 
 
         if(dataInicio.isEmpty() || dataFim.isEmpty()){
-            Toast.makeText(this,
-                    R.string.necess_rio_informar_a_data_de_inicio_e_fim,
-                    Toast.LENGTH_LONG
-            ).show();
+            UtilsAlert.mostrarAviso(this,
+                    R.string.necess_rio_informar_a_data_de_inicio_e_fim
+            );
+
+
             return;
         }
 ;
@@ -248,10 +253,11 @@ public class LivroActivity extends AppCompatActivity {
                     || dataInicio.charAt(5) != '/'
 
         ){
-            Toast.makeText(this,
-                    R.string.formato_de_data_de_in_cio_inv_lido_favor_usar_o_padr_o_dd_mm_yyyy,
-                    Toast.LENGTH_LONG
-            ).show();
+            UtilsAlert.mostrarAviso(this,
+                    R.string.formato_de_data_de_in_cio_inv_lido_favor_usar_o_padr_o_dd_mm_yyyy
+            );
+
+
             return;
         }
 
@@ -259,20 +265,19 @@ public class LivroActivity extends AppCompatActivity {
                 || dataFim.charAt(2) !='/'
                 || dataFim.charAt(5) !='/'
         ){
-            Toast.makeText(this,
-                    R.string.formato_de_data_de_t_rmino_inv_lido_favor_usar_o_padr_o_dd_mm_yyyy,
-                    Toast.LENGTH_LONG
-            ).show();
+            UtilsAlert.mostrarAviso(this,
+                    R.string.formato_de_data_de_t_rmino_inv_lido_favor_usar_o_padr_o_dd_mm_yyyy
+            );
             return;
         }
 
 
         String tipo = (String) spinnerTipo.getSelectedItem();
         if(tipo==null){
-            Toast.makeText(this,
-                    R.string.o_tipo_obrigat_rio,
-                    Toast.LENGTH_LONG
-                    ).show();
+            UtilsAlert.mostrarAviso(this,
+                    R.string.o_tipo_obrigat_rio
+            );
+
             return;
         }
         salvarUltimoTipo(positionSpinner);
