@@ -70,4 +70,11 @@
     <string name="formato_de_data_de_in_cio_inv_lido_favor_usar_o_padr_o_dd_mm_yyyy">Formato de data de início inválido. Favor usar o padrão DD/MM/YYYY.</string>
     <string name="formato_de_data_de_t_rmino_inv_lido_favor_usar_o_padr_o_dd_mm_yyyy">Formato de data de término inválido. Favor usar o padrão DD/MM/YYYY.</string>
     <string name="o_tipo_obrigat_rio">O tipo é obrigatório!</string>
+    <string name="aviso">Aviso</string>
+    <string name="ok">OK</string>
+    <string name="confirmation">Confirmação</string>
+    <string name="nao">Não</string>
+    <string name="sim">Sim</string>
+    <string name="tem_certeza_que_quer_excluir">Tem certeza que quer excluir?\"</string>
+    <string name="certeza_que_quer_restaurar_para_as_configura_es_de_instala_o">Tem certeza que quer restaurar para as configurações de instalação?</string>
 </resources>

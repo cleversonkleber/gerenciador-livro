@@ -29,7 +29,37 @@ public class UtilsAlert {
         builder.setMessage(mensagem);
         builder.setNeutralButton(R.string.ok, onClickListener);
 
-        AlertDialog alert =  builder.create();
-        alert.show();
+        AlertDialog alertDialog =  builder.create();
+        alertDialog.show();
     }
+
+    public static void confirmarAcao(Context context,
+                                     int idMensagem,
+                                     DialogInterface.OnClickListener listenerSim,
+                                     DialogInterface.OnClickListener listenerNao
+    ){
+        confirmarAcao(context, context.getString(idMensagem), listenerSim, listenerNao);
+    }
+
+    public static void confirmarAcao(Context context,
+                                    String mensagem,
+                                    DialogInterface.OnClickListener listenerSim,
+                                    DialogInterface.OnClickListener listenerNao
+    ){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+        builder.setTitle(R.string.confirmation);
+        builder.setIcon(android.R.drawable.ic_dialog_alert);
+
+        builder.setMessage(mensagem);
+
+        builder.setNegativeButton(R.string.sim, listenerSim);
+        builder.setPositiveButton(R.string.nao, listenerNao);
+
+        AlertDialog alertDialog =  builder.create();
+        alertDialog.show();
+    }
+
+
 }

@@ -5,5 +5,6 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
-    <style name="Theme.GerenciadorLeitura" parent="Base.Theme.GerenciadorLeitura" />
+   <style name="Theme.GerenciadorLeitura" parent="Base.Theme.GerenciadorLeitura" />
+    <color name="corSelecionado">@color/amarelo_transparente</color>
 </resources>

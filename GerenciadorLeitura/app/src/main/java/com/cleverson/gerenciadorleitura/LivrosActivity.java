@@ -1,7 +1,9 @@
 package com.cleverson.gerenciadorleitura;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -23,6 +25,8 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
+
+import com.cleverson.gerenciadorleitura.utils.UtilsAlert;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -76,7 +80,6 @@ public class LivrosActivity extends AppCompatActivity {
             }else {
                 if(idMenuItem == R.id.menuItemExcluir){
                     excluirLivro();
-                    mode.finish();
                     return true;
                 }else {
 
@@ -127,6 +130,7 @@ public class LivrosActivity extends AppCompatActivity {
 
         listViewLivros.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
+
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 if(actionMode != null) {
@@ -135,7 +139,7 @@ public class LivrosActivity extends AppCompatActivity {
                 posicaoSelecionada = position;
                 viewSelecionada = view;
                 backgroudDrawable = view.getBackground();
-                view.setBackgroundColor(Color.LTGRAY);
+                view.setBackgroundColor(getColor(R.color.corSelecionado));
                 listViewLivros.setEnabled(false);
                 actionMode = startSupportActionMode(actionCallback);
 
@@ -253,13 +257,7 @@ public class LivrosActivity extends AppCompatActivity {
                 return true;
             }else{
                 if (idMenuItem == R.id.menuItemRestaurar){
-                    restaurarPadres();
-                    atualizarIconOrdenacao();
-                    ordenarLista();
-                    Toast.makeText(this,
-                            R.string.restaurar_configuracoes_padrao_instalacao,
-                            Toast.LENGTH_LONG
-                    ).show();
+                    confirmarRestaurarPadroes();
 
                     return true;
                 }else {
@@ -284,8 +282,20 @@ public class LivrosActivity extends AppCompatActivity {
     }
 
     private void excluirLivro() {
-        livroList.remove(posicaoSelecionada);
-        livroAdapter.notifyDataSetChanged();
+        Livro livro = livroList.get(posicaoSelecionada);
+        String mensagem = getString(R.string.tem_certeza_que_quer_excluir)+ livro.getTitulo() + "\"";
+        DialogInterface.OnClickListener listenerSim = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                livroList.remove(posicaoSelecionada);
+                livroAdapter.notifyDataSetChanged();
+                actionMode.finish();
+
+            }
+        };
+
+        UtilsAlert.confirmarAcao(this, mensagem, listenerSim, null);
+
     }
 
     ActivityResultLauncher<Intent>launcherEditarLivro=registerForActivityResult(
@@ -395,6 +405,30 @@ public class LivrosActivity extends AppCompatActivity {
         }
     }
 
+    private void confirmarRestaurarPadroes() {
+
+        DialogInterface.OnClickListener listenerSim = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                restaurarPadres();
+                atualizarIconOrdenacao();
+                ordenarLista();
+
+                Toast.makeText(LivrosActivity.this,
+                        R.string.restaurar_configuracoes_padrao_instalacao,
+                        Toast.LENGTH_LONG
+                ).show();
+
+            }
+        };
+        UtilsAlert.confirmarAcao(this,
+                R.string.certeza_que_quer_restaurar_para_as_configura_es_de_instala_o,
+                listenerSim,
+                null
+        );
+
+
+    }
     private void restaurarPadres(){
         SharedPreferences preferences = getSharedPreferences(ARQUIVO_PREFERENCIAS, Context.MODE_PRIVATE);
         SharedPreferences.Editor edito = preferences.edit();
