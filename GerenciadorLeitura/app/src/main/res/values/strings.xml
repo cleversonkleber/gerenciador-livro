@@ -70,4 +70,6 @@
     <string name="formato_de_data_de_in_cio_inv_lido_favor_usar_o_padr_o_dd_mm_yyyy">Invalid start date format. Please use the DD/MM/YYYY standard.</string>
     <string name="formato_de_data_de_t_rmino_inv_lido_favor_usar_o_padr_o_dd_mm_yyyy">Invalid end date format. Please use the DD/MM/YYYY standard.</string>
     <string name="o_tipo_obrigat_rio">The type is mandatory!</string>
+    <string name="aviso">Aviso</string>
+    <string name="ok">OK</string>
 </resources>
