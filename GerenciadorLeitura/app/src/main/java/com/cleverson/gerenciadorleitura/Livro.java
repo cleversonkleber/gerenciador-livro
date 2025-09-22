@@ -1,5 +1,10 @@
 package com.cleverson.gerenciadorleitura;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Comparator;
@@ -7,6 +12,7 @@ import java.util.Date;
 import java.util.Locale;
 
 
+@Entity
 public class Livro {
 
     public static Comparator<Livro> ordenaCrescente =  new Comparator<Livro>() {
@@ -22,9 +28,16 @@ public class Livro {
             return livro2.getTitulo().compareTo(livro1.getTitulo());
         }
     };
-    private int id;
+
+    @PrimaryKey(autoGenerate = true)
+    private long id;
+    @NonNull
+    @ColumnInfo(index = true)
     private String titulo;
+    @NonNull
+    @ColumnInfo(index = true)
     private String autor;
+    @NonNull
     private int numeroPaginas;
     private Date dataInicio;
     private Date dataFimLeitura;
@@ -33,13 +46,11 @@ public class Livro {
     private Status status;
     private  String anotacao;
 
-    public Livro() {
-    }
+    public Livro() {}
 
-    public Livro(int id, String titulo, String autor, int numeroPaginas,
+    public Livro(String titulo, String autor, int numeroPaginas,
                  Date dataInicio, Date dataFimLeitura, Tipo tipo, boolean favorito,
                  Status status, String anotacao) {
-        this.id = id;
         this.titulo = titulo;
         this.autor = autor;
         this.numeroPaginas = numeroPaginas;
@@ -51,11 +62,11 @@ public class Livro {
         this.anotacao = anotacao;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -111,7 +122,7 @@ public class Livro {
         return favorito;
     }
 
-    public void setFavorio(boolean favorito) {
+    public void setFavorito(boolean favorito) {
         this.favorito = favorito;
     }
 

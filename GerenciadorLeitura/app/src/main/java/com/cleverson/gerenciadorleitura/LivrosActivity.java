@@ -211,7 +211,7 @@ public class LivrosActivity extends AppCompatActivity {
                             } catch (ParseException e) {
                                 throw new RuntimeException(e);
                             }
-                            Livro livro = new Livro(0,title,autor,numerPaginas,dataInicioFormat,
+                            Livro livro = new Livro(title,autor,numerPaginas,dataInicioFormat,
                                     datafimFormat,Tipo.values()[tipo],favorito,Status.valueOf(status),anotacao);
 
                             livroList.add(livro);
@@ -333,7 +333,7 @@ public class LivrosActivity extends AppCompatActivity {
                             livro.setNumeroPaginas(numerPaginas);
                             livro.setDataInicio(dataInicioFormat);
                             livro.setDataFimLeitura(datafimFormat);
-                            livro.setFavorio(favorito);
+                            livro.setFavorito(favorito);
                             livro.setStatus(Status.valueOf(statusText));
                             livro.setTipo(tipos[tipo]);
                             livro.setAnotacao(anotacao);
