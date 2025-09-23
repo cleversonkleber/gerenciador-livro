@@ -20,21 +20,25 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.cleverson.gerenciadorleitura.persistencia.LivroDatabase;
+import com.cleverson.gerenciadorleitura.utils.ConversorDatas;
 import com.cleverson.gerenciadorleitura.utils.UtilsAlert;
 
 import java.text.ParseException;
 import java.util.Date;
 
 public class LivroActivity extends AppCompatActivity {
-    public static final String KEY_TITULO = "KEY_TITULO";
-    public static final String KEY_AUTOR = "KEY_AUTOR";
-    public static final String KEY_NUM_PAGINAS = "KEY_NUM_PAGINAS";
-    public static final String KEY_DATA_INICIO = "KEY_DATA_INICIO";
-    public static final String KEY_DATA_FIM = "KEY_DATA_FIM";
-    public static final String KEY_FAVORITO = "KEY_FAVORITO";
-    public static final String KEY_STATUS = "KEY_STATUS";
-    public static final String KEY_TIPO = "KEY_TIPO";
-    public static final String KEY_ANOTACAO = "KEY_ANOTACAO";
+//    public static final String KEY_TITULO = "KEY_TITULO";
+//    public static final String KEY_AUTOR = "KEY_AUTOR";
+//    public static final String KEY_NUM_PAGINAS = "KEY_NUM_PAGINAS";
+//    public static final String KEY_DATA_INICIO = "KEY_DATA_INICIO";
+//    public static final String KEY_DATA_FIM = "KEY_DATA_FIM";
+//    public static final String KEY_FAVORITO = "KEY_FAVORITO";
+//    public static final String KEY_STATUS = "KEY_STATUS";
+//    public static final String KEY_TIPO = "KEY_TIPO";
+//    public static final String KEY_ANOTACAO = "KEY_ANOTACAO";
+
+    public static final String KEY_ID ="ID";
     public static final String KEY_MODO = "MODO";
     public static final int MODO_NOVO = 0;
     public static final int MODO_EDITAR =1;
@@ -54,6 +58,7 @@ public class LivroActivity extends AppCompatActivity {
     private Spinner spinnerTipo;
     private RadioButton radioLendo, radioQueroLer, radioLido;
     private int modo;
+    private Livro livroOriginal;
     private boolean sugerirTipo=false;
     private int ultimoTipo =0;
 
@@ -80,6 +85,13 @@ public class LivroActivity extends AppCompatActivity {
         radioLido = findViewById(R.id.radioButtonLido);
         radioQueroLer = findViewById(R.id.radioButtonQueroLer);
 
+        Date dataFimValidade = null;
+        Date dataInicioValidade = null;
+
+
+
+
+
         lerPreferncias();
 
         Intent intentAbertur =  getIntent();
@@ -93,32 +105,25 @@ public class LivroActivity extends AppCompatActivity {
                 }
             }else {
 
-
                 setTitle(getString(R.string.editar_livro));
-                String title = bundle.getString(LivroActivity.KEY_TITULO);
-                String autor = bundle.getString(LivroActivity.KEY_AUTOR);
-                int numerPaginas = bundle.getInt(LivroActivity.KEY_NUM_PAGINAS);
-                String dataInicio = bundle.getString(LivroActivity.KEY_DATA_INICIO);
-                String dataFim = bundle.getString(LivroActivity.KEY_DATA_FIM);
-                boolean favorito = bundle.getBoolean(LivroActivity.KEY_FAVORITO);
-                int tipo = bundle.getInt(LivroActivity.KEY_TIPO);
-                String statusTexo = bundle.getString(LivroActivity.KEY_STATUS);
-                String anotacao = bundle.getString(LivroActivity.KEY_ANOTACAO);
-                Date dataInicioFormat =null ;
-                Date datafimFormat=null;
 
-                Status status = Status.valueOf(statusTexo);
+                Long id = bundle.getLong(KEY_ID);
 
-                editTextTitulo.setText(title);
-                editTextAutor.setText(autor);
-                editTextNPaginas.setText(String.valueOf(numerPaginas));
-                editTextDateInicio.setText(dataInicio);
-                editTextDateTermino.setText(dataFim);
-                editTextAnotacao.setText(anotacao);
+                LivroDatabase livroDatabase = LivroDatabase.getInstance(this);
 
-                checkBoxFavorito.setChecked(favorito);
-                spinnerTipo.setSelection(tipo);
+                livroOriginal= livroDatabase.getLivroDao().findById(id);
 
+                editTextTitulo.setText(livroOriginal.getTitulo());
+                editTextAutor.setText(livroOriginal.getAutor());
+                editTextNPaginas.setText(String.valueOf(livroOriginal.getNumeroPaginas()));
+                editTextDateInicio.setText(livroOriginal.getDataInicio().toString());
+                editTextDateTermino.setText(livroOriginal.getDataFimLeitura().toString());
+                editTextAnotacao.setText(livroOriginal.getAnotacao());
+
+                checkBoxFavorito.setChecked(livroOriginal.isFavorito());
+                spinnerTipo.setSelection(livroOriginal.getTipo().ordinal());
+
+                Status status = livroOriginal.getStatus();
                 if(status == Status.LIDO){
                     radioLido.setChecked(true);
                 }else
@@ -128,6 +133,9 @@ public class LivroActivity extends AppCompatActivity {
                         if (status==Status.QUEROLER){
                             radioQueroLer.setChecked(true);
                         }
+
+               editTextTitulo.requestFocus();
+               editTextTitulo.setSelection(editTextTitulo.getText().length());
 
             }
         }
@@ -163,6 +171,10 @@ public class LivroActivity extends AppCompatActivity {
         String dataFim = editTextDateTermino.getText().toString();
         String anotacao = editTextAnotacao.getText().toString();
         int positionSpinner = spinnerTipo.getSelectedItemPosition();
+
+        Date dataFimValidade = null;
+        Date dataInicioValidade = null;
+
 
         boolean livroFavorito = checkBoxFavorito.isChecked();
         Status status ;
@@ -204,8 +216,9 @@ public class LivroActivity extends AppCompatActivity {
         try {
 
             @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            Date dataFimValidade = dateFormat.parse(dataFim);
-            Date dataInicioValidade = dateFormat.parse(dataInicio);
+            dataFimValidade = dateFormat.parse(dataFim);
+            dataInicioValidade = dateFormat.parse(dataInicio);
+
             if(dataFimValidade.before(dataInicioValidade)){
                 UtilsAlert.mostrarAviso(this,
                         R.string.a_data_de_t_rmino_n_o_pode_ser_menor_que_a_data_inicio
@@ -280,19 +293,48 @@ public class LivroActivity extends AppCompatActivity {
 
             return;
         }
+        Tipo[] tipos=Tipo.values();
         salvarUltimoTipo(positionSpinner);
+        Livro livro = new Livro(
+                titulo,
+                autor,
+                Integer.valueOf(numeroPaginas),
+                dataInicioValidade,
+                dataFimValidade,
+                tipos[positionSpinner],
+                livroFavorito,
+                status,
+                anotacao
+        );
+
+        if (livro.equals(livroOriginal)){
+            setResult(LivroActivity.RESULT_CANCELED);
+            finish();
+            return;
+        }
 
         Intent intentResp = new Intent();
-        intentResp.putExtra(KEY_TITULO, titulo);
-        intentResp.putExtra(KEY_AUTOR, autor);
-        intentResp.putExtra(KEY_NUM_PAGINAS, Integer.valueOf(numeroPaginas));
-        intentResp.putExtra(KEY_DATA_INICIO, dataInicio);
-        intentResp.putExtra(KEY_DATA_FIM, dataFim);
-        intentResp.putExtra(KEY_FAVORITO, livroFavorito);
-        intentResp.putExtra(KEY_STATUS, status.toString());
-        intentResp.putExtra(KEY_TIPO, positionSpinner);
-        intentResp.putExtra(KEY_ANOTACAO, anotacao);
 
+        LivroDatabase livroDatabase = LivroDatabase.getInstance(this);
+        if(modo==MODO_NOVO){
+            long novoId= livroDatabase.getLivroDao().insert(livro);
+
+            if(novoId <=0){
+                UtilsAlert.mostrarAviso(this, getString(R.string.erro_ao_tentar_inserir), null);
+                return;
+            }
+            livro.setId(novoId);
+
+        }else{
+            livro.setId(livroOriginal.getId());
+            int quantidadeAlterada  = livroDatabase.getLivroDao().update(livro);
+            if(quantidadeAlterada != 1){
+                UtilsAlert.mostrarAviso(this, getString(R.string.erro_ao_tentar_alterar_o_resgistro), null);
+                return;
+            }
+        }
+
+        intentResp.putExtra(KEY_ID, livro.getId());
         setResult(LivroActivity.RESULT_OK, intentResp);
         finish();
 

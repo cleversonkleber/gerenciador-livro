@@ -26,6 +26,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 
+import com.cleverson.gerenciadorleitura.persistencia.LivroDatabase;
 import com.cleverson.gerenciadorleitura.utils.UtilsAlert;
 
 import java.text.ParseException;
@@ -171,7 +172,15 @@ public class LivrosActivity extends AppCompatActivity {
     }
 
     private void popularListLivros() {
+
         livroList = new ArrayList<>();
+
+        LivroDatabase livroDatabase = LivroDatabase.getInstance(this);
+        if(ordenaAsc){
+            livroList = livroDatabase.getLivroDao().getAllLivrosAsc();
+        }else{
+            livroList = livroDatabase.getLivroDao().getAllLivrosDesc();
+        }
         livroAdapter = new LivroAdapter(this,livroList);
 
         listViewLivros.setAdapter(livroAdapter);
@@ -193,26 +202,22 @@ public class LivrosActivity extends AppCompatActivity {
                         Bundle bundle =  intent.getExtras();
 
                         if (bundle != null){
-                            String title = bundle.getString(LivroActivity.KEY_TITULO);
-                            String autor = bundle.getString(LivroActivity.KEY_AUTOR);
-                            int numerPaginas = bundle.getInt(LivroActivity.KEY_NUM_PAGINAS);
-                            String dataInicio = bundle.getString(LivroActivity.KEY_DATA_INICIO);
-                            String dataFim = bundle.getString(LivroActivity.KEY_DATA_FIM);
-                            boolean favorito = bundle.getBoolean(LivroActivity.KEY_FAVORITO);
-                            int tipo = bundle.getInt(LivroActivity.KEY_TIPO);
-                            String status = bundle.getString(LivroActivity.KEY_STATUS);
-                            String anotacao = bundle.getString(LivroActivity.KEY_ANOTACAO);
-                            Date dataInicioFormat =null ;
-                            Date datafimFormat=null;
+                            long id = bundle.getLong(LivroActivity.KEY_ID);
+                            LivroDatabase database = LivroDatabase.getInstance(LivrosActivity.this);
 
-                            try {
-                                dataInicioFormat = formatter.parse(dataInicio);
-                                datafimFormat = formatter.parse(dataFim);
-                            } catch (ParseException e) {
-                                throw new RuntimeException(e);
-                            }
-                            Livro livro = new Livro(title,autor,numerPaginas,dataInicioFormat,
-                                    datafimFormat,Tipo.values()[tipo],favorito,Status.valueOf(status),anotacao);
+                            Livro livro = database.getLivroDao().findById(id);
+
+//                            Date dataInicioFormat =null ;
+//                            Date datafimFormat=null;
+//
+//                            try {
+//                                dataInicioFormat = formatter.parse(dataInicio);
+//                                datafimFormat = formatter.parse(dataFim);
+//                            } catch (ParseException e) {
+//                                throw new RuntimeException(e);
+//                            }
+//                            Livro livro = new Livro(title,autor,numerPaginas,dataInicioFormat,
+//                                    datafimFormat,Tipo.values()[tipo],favorito,Status.valueOf(status),anotacao);
 
                             livroList.add(livro);
 
@@ -287,6 +292,11 @@ public class LivrosActivity extends AppCompatActivity {
         DialogInterface.OnClickListener listenerSim = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                LivroDatabase livroDatabase = LivroDatabase.getInstance(LivrosActivity.this);
+                long id = livroDatabase.getLivroDao().delete(livro);
+                if(id !=1){
+                    UtilsAlert.mostrarAviso(LivrosActivity.this,getString(R.string.erro_ao_tentar_excluir_o_livro), null);
+                }
                 livroList.remove(posicaoSelecionada);
                 livroAdapter.notifyDataSetChanged();
                 actionMode.finish();
@@ -308,35 +318,24 @@ public class LivrosActivity extends AppCompatActivity {
                         Bundle bundle =  intent.getExtras();
 
                         if (bundle != null){
-                            Tipo[] tipos = Tipo.values();
-                            String title = bundle.getString(LivroActivity.KEY_TITULO);
-                            String autor = bundle.getString(LivroActivity.KEY_AUTOR);
-                            int numerPaginas = bundle.getInt(LivroActivity.KEY_NUM_PAGINAS);
-                            String dataInicio = bundle.getString(LivroActivity.KEY_DATA_INICIO);
-                            String dataFim = bundle.getString(LivroActivity.KEY_DATA_FIM);
-                            boolean favorito = bundle.getBoolean(LivroActivity.KEY_FAVORITO);
-                            int tipo = bundle.getInt(LivroActivity.KEY_TIPO);
-                            String statusText = bundle.getString(LivroActivity.KEY_STATUS);
-                            String anotacao = bundle.getString(LivroActivity.KEY_ANOTACAO);
-                            Date dataInicioFormat =null ;
-                            Date datafimFormat=null;
+                            Livro livroOriginal = livroList.get(posicaoSelecionada);
 
-                            try {
-                                dataInicioFormat = formatter.parse(dataInicio);
-                                datafimFormat = formatter.parse(dataFim);
-                            } catch (ParseException e) {
-                                throw new RuntimeException(e);
-                            }
-                            Livro livro = livroList.get(posicaoSelecionada);
-                            livro.setTitulo(title);
-                            livro.setAutor(autor);
-                            livro.setNumeroPaginas(numerPaginas);
-                            livro.setDataInicio(dataInicioFormat);
-                            livro.setDataFimLeitura(datafimFormat);
-                            livro.setFavorito(favorito);
-                            livro.setStatus(Status.valueOf(statusText));
-                            livro.setTipo(tipos[tipo]);
-                            livro.setAnotacao(anotacao);
+                            long id = bundle.getLong(LivroActivity.KEY_ID);
+                            LivroDatabase database = LivroDatabase.getInstance(LivrosActivity.this);
+
+                            final Livro livroEditata = database.getLivroDao().findById(id);
+                             livroList.set(posicaoSelecionada, livroEditata);
+                             ordenarLista();
+
+//                            Date dataInicioFormat =null ;
+//                            Date datafimFormat=null;
+//
+//                            try {
+//                                dataInicioFormat = formatter.parse(dataInicio);
+//                                datafimFormat = formatter.parse(dataFim);
+//                            } catch (ParseException e) {
+//                                throw new RuntimeException(e);
+//                            }
 
 
                         }
@@ -361,15 +360,8 @@ public class LivrosActivity extends AppCompatActivity {
 
 
         intentAbertura.putExtra(LivroActivity.KEY_MODO,  LivroActivity.MODO_EDITAR);
-        intentAbertura.putExtra(LivroActivity.KEY_TITULO,livro.getTitulo());
-        intentAbertura.putExtra(LivroActivity.KEY_AUTOR,livro.getAutor());
-        intentAbertura.putExtra(LivroActivity.KEY_NUM_PAGINAS,livro.getNumeroPaginas());
-        intentAbertura.putExtra(LivroActivity.KEY_DATA_INICIO,dataInicioFormat);
-        intentAbertura.putExtra(LivroActivity.KEY_DATA_FIM,datafimFormat);
-        intentAbertura.putExtra(LivroActivity.KEY_FAVORITO,livro.isFavorito());
-        intentAbertura.putExtra(LivroActivity.KEY_TIPO,livro.getTipo().ordinal());
-        intentAbertura.putExtra(LivroActivity.KEY_STATUS,livro.getStatus().toString());
-        intentAbertura.putExtra(LivroActivity.KEY_ANOTACAO,livro.getAnotacao());
+        intentAbertura.putExtra(LivroActivity.KEY_ID,livro.getId());
+
         launcherEditarLivro.launch(intentAbertura);
 
     }

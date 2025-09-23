@@ -19,7 +19,7 @@ public abstract class LivroDatabase extends RoomDatabase {
     private static LivroDatabase INSTANCE;
 
     public static LivroDatabase getInstance(final Context context){
-        if (INSTANCE != null){
+        if (INSTANCE == null){
             synchronized (LivroDatabase.class){
                 if (INSTANCE==null){
                     INSTANCE = Room.databaseBuilder(

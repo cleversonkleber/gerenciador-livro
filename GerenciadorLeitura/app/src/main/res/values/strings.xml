@@ -77,5 +77,8 @@
     <string name="sim">Yes</string>
     <string name="tem_certeza_que_quer_excluir">Do you really want to delete this?\"</string>
     <string name="certeza_que_quer_restaurar_para_as_configura_es_de_instala_o">Are you sure you want to restore to installation settings?</string>
+    <string name="erro_ao_tentar_inserir">Error inserting into the database!</string>
+    <string name="erro_ao_tentar_alterar_o_resgistro">Error trying to update the record!</string>
+    <string name="erro_ao_tentar_excluir_o_livro">Erro ao tentar excluir o Livro!</string>
 
 </resources>

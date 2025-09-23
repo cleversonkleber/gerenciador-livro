@@ -77,4 +77,7 @@
     <string name="sim">Sim</string>
     <string name="tem_certeza_que_quer_excluir">Tem certeza que quer excluir?\"</string>
     <string name="certeza_que_quer_restaurar_para_as_configura_es_de_instala_o">Tem certeza que quer restaurar para as configurações de instalação?</string>
+    <string name="erro_ao_tentar_inserir">Erro ao inserir no banco de dados!</string>
+    <string name="erro_ao_tentar_alterar_o_resgistro">Erro ao tentar alterar o resgistro!</string>
+    <string name="erro_ao_tentar_excluir_o_livro">Erro ao tentar excluir o Livro!</string>
 </resources>

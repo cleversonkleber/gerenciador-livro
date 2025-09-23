@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 
 @Entity
@@ -46,7 +47,7 @@ public class Livro {
     private Status status;
     private  String anotacao;
 
-    public Livro() {}
+//    public Livro() {}
 
     public Livro(String titulo, String autor, int numeroPaginas,
                  Date dataInicio, Date dataFimLeitura, Tipo tipo, boolean favorito,
@@ -158,5 +159,20 @@ public class Livro {
                 status + '\n' +
                 anotacao;
 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass())
+            return false;
+        Livro livro = (Livro) o;
+        return  numeroPaginas == livro.numeroPaginas &&
+                titulo.equals(livro.titulo) &&
+               autor.equals(livro.autor);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(titulo, autor, numeroPaginas);
     }
 }
