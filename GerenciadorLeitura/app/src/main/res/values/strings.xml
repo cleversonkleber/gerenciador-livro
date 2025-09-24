@@ -80,5 +80,8 @@
     <string name="erro_ao_tentar_inserir">Error inserting into the database!</string>
     <string name="erro_ao_tentar_alterar_o_resgistro">Error trying to update the record!</string>
     <string name="erro_ao_tentar_excluir_o_livro">Erro ao tentar excluir o Livro!</string>
+    <string name="desfazer_a_altera_o_realizada">Undo the change made?</string>
+    <string name="desfazer">Undo</string>
+    <string name="erro_ao_tentar_alterar">Error trying to Update!</string>
 
 </resources>

@@ -15,28 +15,17 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cleverson.gerenciadorleitura.persistencia.LivroDatabase;
-import com.cleverson.gerenciadorleitura.utils.ConversorDatas;
 import com.cleverson.gerenciadorleitura.utils.UtilsAlert;
 
 import java.text.ParseException;
 import java.util.Date;
 
 public class LivroActivity extends AppCompatActivity {
-//    public static final String KEY_TITULO = "KEY_TITULO";
-//    public static final String KEY_AUTOR = "KEY_AUTOR";
-//    public static final String KEY_NUM_PAGINAS = "KEY_NUM_PAGINAS";
-//    public static final String KEY_DATA_INICIO = "KEY_DATA_INICIO";
-//    public static final String KEY_DATA_FIM = "KEY_DATA_FIM";
-//    public static final String KEY_FAVORITO = "KEY_FAVORITO";
-//    public static final String KEY_STATUS = "KEY_STATUS";
-//    public static final String KEY_TIPO = "KEY_TIPO";
-//    public static final String KEY_ANOTACAO = "KEY_ANOTACAO";
 
     public static final String KEY_ID ="ID";
     public static final String KEY_MODO = "MODO";
@@ -85,10 +74,10 @@ public class LivroActivity extends AppCompatActivity {
         radioLido = findViewById(R.id.radioButtonLido);
         radioQueroLer = findViewById(R.id.radioButtonQueroLer);
 
-        Date dataFimValidade = null;
-        Date dataInicioValidade = null;
+        String dataFimValidade = null;
+        String dataInicioValidade = null;
 
-
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
 
 
@@ -112,12 +101,15 @@ public class LivroActivity extends AppCompatActivity {
                 LivroDatabase livroDatabase = LivroDatabase.getInstance(this);
 
                 livroOriginal= livroDatabase.getLivroDao().findById(id);
+                dataFimValidade = dateFormat.format(livroOriginal.getDataFimLeitura());
+                dataInicioValidade = dateFormat.format(livroOriginal.getDataInicio());
+
 
                 editTextTitulo.setText(livroOriginal.getTitulo());
                 editTextAutor.setText(livroOriginal.getAutor());
                 editTextNPaginas.setText(String.valueOf(livroOriginal.getNumeroPaginas()));
-                editTextDateInicio.setText(livroOriginal.getDataInicio().toString());
-                editTextDateTermino.setText(livroOriginal.getDataFimLeitura().toString());
+                editTextDateInicio.setText(dataInicioValidade);
+                editTextDateTermino.setText(dataFimValidade);
                 editTextAnotacao.setText(livroOriginal.getAnotacao());
 
                 checkBoxFavorito.setChecked(livroOriginal.isFavorito());
@@ -226,6 +218,7 @@ public class LivroActivity extends AppCompatActivity {
 
                 return;
             }
+
 
         } catch (ParseException e) {
             UtilsAlert.mostrarAviso(this,

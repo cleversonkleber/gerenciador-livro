@@ -80,4 +80,7 @@
     <string name="erro_ao_tentar_inserir">Erro ao inserir no banco de dados!</string>
     <string name="erro_ao_tentar_alterar_o_resgistro">Erro ao tentar alterar o resgistro!</string>
     <string name="erro_ao_tentar_excluir_o_livro">Erro ao tentar excluir o Livro!</string>
+    <string name="desfazer_a_altera_o_realizada">Desfazer a alteração realizada?</string>
+    <string name="desfazer">Desfazer</string>
+    <string name="erro_ao_tentar_alterar">Erro ao tentar Alterar!</string>
 </resources>

@@ -6,7 +6,6 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Locale;
@@ -161,14 +160,19 @@ public class Livro {
 
     }
 
+
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass())
-            return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Livro livro = (Livro) o;
-        return  numeroPaginas == livro.numeroPaginas &&
+        return numeroPaginas == livro.numeroPaginas &&
+                favorito == livro.favorito &&
                 titulo.equals(livro.titulo) &&
-               autor.equals(livro.autor);
+                autor.equals(livro.dataInicio) &&
+                dataFimLeitura.equals(livro.dataFimLeitura) &&
+                tipo == livro.tipo &&
+                status == livro.status &&
+                anotacao.equals(livro.anotacao);
     }
 
     @Override
